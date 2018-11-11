@@ -1,0 +1,36 @@
+{
+  "name": "fullstack",
+  "version": "1.0.0",
+  "description": "MEAN Stack Assignment",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://vicecarloans@github.com/vicecarloans/fullstack-videostore.git"
+  },
+  "author": "vicecarloans",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vicecarloans/fullstack-videostore/issues"
+  },
+  "homepage": "https://github.com/vicecarloans/fullstack-videostore#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.0.1",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.11",
+    "nodemon": "^1.18.6",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
+  }
+}
