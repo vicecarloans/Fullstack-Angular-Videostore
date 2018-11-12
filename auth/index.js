@@ -7,11 +7,14 @@ const router = express.Router();
 
 
 router.post('/login', async (req, res, next) => {
-    console.log(req.body)
     passport.authenticate('login', async (error, user, info) => {
-        console.log(error, user, info)
-        if(error || !user){
-            return next(new Error("Something went wrong"));
+        if(error){
+            return next(error);
+        }
+        if(!user){
+            const error = new Error(info);
+            error.status = 400;
+            return next(error);
         }
         req.login(user, {session: false}, async (err) => {
             if(err) return next(err);
@@ -29,5 +32,12 @@ router.post('/login', async (req, res, next) => {
         })
     })(req, res, next);
 })
+
+router.get('/logout', (req, res) => {
+    res.cookie("access_token", null, {
+        maxAge: 0
+    })
+    res.json({status: 1})
+});
 
 module.exports = router;

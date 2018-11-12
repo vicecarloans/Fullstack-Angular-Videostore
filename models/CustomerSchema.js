@@ -22,19 +22,5 @@ CustomerSchema.pre(/update/, function(next){
     this.modifiedAt = modifiedDate;
     next();
 })
-CustomerSchema.method({
-    listAll : function(offset = 0, limit = 20){
-
-    },
-    updateById: function(id, customer){
-
-    },
-    deleteById: function(id){
-
-    },
-    create: function(info){
-
-    }
-})
 
 const CustomerModel = mongoose.model("customers", CustomerSchema);

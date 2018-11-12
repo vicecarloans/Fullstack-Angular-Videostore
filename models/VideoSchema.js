@@ -7,8 +7,9 @@ const VideoSchema = new Schema({
     genre: String,
     rating: Number,
     director: String,
-    _customer: {type: Schema.Types.ObjectId, ref: 'customers'},
-    status: {
+    image: String,
+    _customerId: {type: Schema.Types.ObjectId, ref: 'customers'},
+    available: {
         type: Boolean,
         default: true,
     },
@@ -16,7 +17,7 @@ const VideoSchema = new Schema({
         type:Date,
         default: Date.now()
     },
-    modifiedat: {
+    modifiedAt: {
         type:Date,
         default: Date.now()
     }
@@ -27,19 +28,5 @@ VideoSchema.pre(/update/, function(next){
     next();
 })
 
-VideoSchema.method({
-    create: function(info){
-        
-    },
-    updateById: function(id, video){
-
-    },
-    deleteById: function(id){
-
-    },
-    listAll: function(offset = 0, limit = 20){
-
-    }
-})
 
 const VideoModel = mongoose.model("videos", VideoSchema);
