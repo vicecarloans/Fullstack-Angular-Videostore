@@ -6,5 +6,7 @@ Video Store Application support CRUD, CMS built from MEAN stack
 
 To test this application, use this admin credentials
 
-> email: root@admin.com
-> password: root
+```
+email: root@admin.com
+password: root
+```
