@@ -49,7 +49,7 @@ router.get('/', async (req, res,next) => {
 router.get('/:id', async (req, res, next) => {
     const videoId = req.params.id;
     try{
-        const video = await VideoModel.findOne({_id: videoId});
+        const video = await VideoModel.findById(videoId);
         res.json({video});
     }catch(e){
         next(e)
@@ -100,9 +100,10 @@ router.post('/:id/reserve/', async (req, res, next) => {
     
 });
 
-const uploading = multer({
-    dest: "public/uploads/"
+const storage = multer.diskStorage({
+    destination: "public/uploads/"
 })
+const uploading = multer({storage}).single('banner');
 /*
     POST /api/videos/
     Create new video
@@ -130,20 +131,30 @@ const uploading = multer({
         "__v": 0
     }
 */
-router.post('/', requireLogin, uploading.single('banner'), async (req,res,next) => {
-    const {title, time, genre, rating, director, available} = req.body;
-    const video = new VideoModel({
-        title,
-        time,
-        genre,
-        rating,
-        director,
-        image: req.file.path,
-        available
-    })
+
+
+router.post('/', requireLogin, async (req,res,next) => {
+
+
     try{
-        const result = await video.save();
-        res.json({result});
+        // Upload
+        uploading(req, res, async (err) => {
+            console.log(req.body)
+            const {title, time, genre, rating, director, available} = req.body;
+            const video = new VideoModel({
+                title,
+                time,
+                genre,
+                rating,
+                director,
+                image: req.file.path || '',
+                available
+            })
+            const result = await video.save();
+            
+            res.json({result});
+        });
+        
     }catch(e){
         next(e);
     }
@@ -154,22 +165,26 @@ router.post('/', requireLogin, uploading.single('banner'), async (req,res,next) 
     Update by id
 
 */
-router.put('/:id', requireLogin, uploading.single('banner'), async (req, res, next) => {
-    const videoId = req.params.id;
-    const {title, time, genre, rating, director, available} = req.body;
+router.put('/:id', requireLogin, async (req, res, next) => {
     try{
-        const result = await VideoModel.findByIdAndUpdate(videoId, {
-            $set: {
-                title: title,
-                time,
-                genre,
-                rating,
-                director,
-                image: req.file.path || '',
-                available
-            }
-        }, {new: true})
-        res.json(result);
+        uploading(req, res, async (err) => {
+            const videoId = req.params.id;
+            const {title, time, genre, rating, director, available} = req.body;
+            const filepath = req.file ? req.file.path : '';
+            const result = await VideoModel.findByIdAndUpdate(videoId, {
+                $set: {
+                    title: title,
+                    time,
+                    genre,
+                    rating,
+                    director,
+                    image: filepath,
+                    available,
+                    modifiedAt: Date.now()
+                }
+            }, {new: true})
+            res.json({result});
+        });
     }catch(e){
         next(e)
     }

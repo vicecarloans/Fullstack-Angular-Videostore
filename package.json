@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "server": "nodemon app.js",
+    "client": "cd client && ng serve",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +23,7 @@
   "dependencies": {
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "carbon-icons": "^7.0.7",
     "concurrently": "^4.0.1",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
@@ -35,5 +38,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "carbon-components": "^9.48.3"
   }
 }

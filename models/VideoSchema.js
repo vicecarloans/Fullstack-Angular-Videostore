@@ -22,7 +22,7 @@ const VideoSchema = new Schema({
         default: Date.now()
     }
 })
-VideoSchema.pre(/update/, function(next){
+VideoSchema.pre(/^update/, function(next){
     const modifiedDate = Date.now();
     this.modifiedAt = modifiedDate;
     next();

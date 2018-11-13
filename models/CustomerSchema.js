@@ -7,7 +7,7 @@ const CustomerSchema = new Schema({
     address:String,
     city:String,
     phoneNumber: String,
-    status: Boolean,
+    status: {type: Boolean, default: true},
     createdAt: {
         type: Date,
         default: Date.now()
@@ -17,7 +17,7 @@ const CustomerSchema = new Schema({
         default: Date.now()
     }
 })
-CustomerSchema.pre(/update/, function(next){
+CustomerSchema.pre(/^update/, function(next){
     const modifiedDate = Date.now();
     this.modifiedAt = modifiedDate;
     next();

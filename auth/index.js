@@ -5,7 +5,11 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-
+/*
+    Credentials:
+    email - admin@root.com
+    password - root
+*/
 router.post('/login', async (req, res, next) => {
     passport.authenticate('login', async (error, user, info) => {
         if(error){

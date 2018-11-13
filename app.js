@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const cleanAssets = require('./services/clean');
+// const cleanAssets = require('./services/clean');
 const helmet = require('helmet');
 const keys = require("./config/keys");
 const passport = require("passport")
@@ -32,12 +32,13 @@ app.use('/api',ApiRoutes);
 
 
 app.use(function(err, req, res, next) {
+    
     res.status(err.status || 500).json({error: err});       
 });
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    cleanAssets();
+    // cleanAssets();
     console.log(`Server started on ${PORT}`);
 });
