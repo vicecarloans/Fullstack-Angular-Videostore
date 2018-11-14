@@ -38,7 +38,7 @@ passport.use(new JWTstrategy({
 }, async (token, done) => {
     try {
         if(token){
-            return done(null,token.user);
+            return done(null,token);
         }
         return done(null, false);
     }catch(e){

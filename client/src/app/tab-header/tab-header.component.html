@@ -1,9 +1,12 @@
 
 <ibm-tabs>
-    <ibm-tab heading="Videos">
-        Tab 1 content 
-    </ibm-tab>
-    <ibm-tab heading='Tab2'>
-        Tab 2 content
-    </ibm-tab>
+    <ibm-tab-headers class="tab-header">
+        <ibm-tab heading="Videos">
+            <app-video-table></app-video-table>
+        </ibm-tab>
+        <ibm-tab *ngIf="authorized" heading='Customers'>
+            Tab 2 content
+        </ibm-tab>
+    </ibm-tab-headers>
+
 </ibm-tabs>

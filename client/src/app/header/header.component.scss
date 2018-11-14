@@ -1,0 +1,23 @@
+.btn-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  .logo {
+    grid-column: 1;
+    font-size: 40px;
+    font-weight: bold;
+    justify-self: flex-start;
+    color: #3d70b2;
+    a {
+      text-decoration: none;
+    }
+  }
+  .login-btn {
+    grid-column: 3;
+    justify-self: flex-end;
+  }
+  .title {
+    grid-column: 3;
+    justify-self: flex-end;
+  }
+}

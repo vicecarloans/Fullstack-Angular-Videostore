@@ -1,4 +1,8 @@
 import { Component, OnInit, NgModule } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { AppState } from "../core/models/store.model";
+import { Observable } from "rxjs";
+import { AdminReducerModel } from "../core/models/admin.model";
 
 @Component({
   selector: "app-tab-header",
@@ -6,7 +10,16 @@ import { Component, OnInit, NgModule } from "@angular/core";
   styleUrls: ["./tab-header.component.scss"]
 })
 export class TabHeaderComponent implements OnInit {
-  constructor() {}
+  admin: Observable<AdminReducerModel>;
+  authorized: boolean;
 
-  ngOnInit() {}
+  constructor(private store: Store<AppState>) {
+    this.admin = this.store.select("admin");
+  }
+
+  ngOnInit() {
+    this.admin.subscribe(state => {
+      this.authorized = state.authorized;
+    });
+  }
 }

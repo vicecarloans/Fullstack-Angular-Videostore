@@ -1,0 +1,12 @@
+
+<ibm-label>
+  <label label>Email</label>
+  <input ibmText placeholder="Email" (keyup)="onEmailChange($event)"/>
+</ibm-label>
+<br/>
+<ibm-label>
+  <label label>Password</label>
+  <input ibmText type="password" placeholder="Password" (keyup)="onPasswordChange($event)"/>
+</ibm-label>
+<br/>
+<button ibmButton (click)="submitLogin();" style="width:30vw;">Login</button>

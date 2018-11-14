@@ -19,7 +19,7 @@ const CustomerModel = mongoose.model("customers");
 */
 router.get('/', requireLogin, async (req, res, next) => {
     const offset = req.query.offset || 0;
-    const limit = req.query.limit || 15;
+    const limit = req.query.limit || 50;
     try{
         const customers = await CustomerModel.find()
                                         .limit(limit)

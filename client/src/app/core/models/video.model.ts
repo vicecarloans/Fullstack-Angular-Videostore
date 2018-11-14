@@ -1,21 +1,21 @@
 export class VideoModel {
   constructor(
-    public _id: String,
-    public title: String,
-    public time: Number,
-    public genre: String,
-    public rating: Number,
-    public director: String,
-    public image: String,
-    public available: Boolean,
-    public _customerId?: String
+    public _id: string,
+    public title: string,
+    public time: number,
+    public genre: string,
+    public rating: number,
+    public director: string,
+    public image: string,
+    public available: boolean,
+    public _customerId?: string
   ) {}
 }
 
 export class VideoPaginationModel {
   constructor(
     public videos: VideoModel[],
-    public offset: Number,
-    public count: Number
+    public offset: number,
+    public count: number
   ) {}
 }

@@ -22,7 +22,7 @@ const requireLogin = require('../middlewares/requireLogin');
 */
 router.get('/', async (req, res,next) => {
     const offset = req.query.offset || 0;
-    const limit = req.query.limit || 15;
+    const limit = req.query.limit || 50;
     try{
         const videos = await VideoModel.find()
                                         .limit(limit)

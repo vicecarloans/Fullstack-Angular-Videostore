@@ -27,19 +27,21 @@ router.post('/login', async (req, res, next) => {
                 expiresIn: '7d',
                 subject: user._id.toString()
             });
+            
             res.cookie("access_token", jwtToken, {
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                encode: String
+
             });
-            return res.json({status: 1})
+            res.json({status: 1});
         })
     })(req, res, next);
 })
 
 router.get('/logout', (req, res) => {
     res.cookie("access_token", null, {
-        maxAge: 0
+        expires:0,
+        httpOnly: true
     })
     res.json({status: 1})
 });

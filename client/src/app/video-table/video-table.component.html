@@ -1,8 +1,18 @@
-<h1>All Videos</h1>
+<ng-template #videoTablePaginationTemplate let-data="data">
+  <button *ngIf="!authorized" ibmButton (click)="handleReserve(data);">Reserve</button>
+  
+</ng-template>
+<ng-template #videoTablePaginationTemplateUpdate let-data="data">
+  <button *ngIf="authorized" ibmButton>Update</button>
+</ng-template>
+<ng-template #videoTablePaginationTemplateDelete let-data="data">
+  <button *ngIf="authorized" ibmButton>Delete</button>
+</ng-template>
+<ng-template #filterableHeaderTemplate let-data="data">
+  <i><a [attr.href]="data.link">{{data}}</a></i>
+</ng-template>
+<input type="text" (keyup)="doFilter($event);" class="input-field">
 
-<ul>
-  <li *ngFor="let video of videos$">
-    {{video.title}}
-    
-  </li>
-</ul>
+<ibm-table *ngIf="!loading" [model]="videoTable" (sort)="customSort($event)" (filter)="doFilter($event)" [showSelectionColumn]="true"
+			[striped]="true"></ibm-table>
+<ibm-pagination *ngIf="!loading" [model]="videoTable" (selectPage)="selectPage($event)"></ibm-pagination>

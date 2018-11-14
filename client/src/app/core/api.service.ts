@@ -21,7 +21,11 @@ export class ApiService {
       .get<VideoPaginationModel>("http://localhost:5000/api/videos")
       .pipe(catchError(err => this._handleError(err)));
   }
-
+  getVideoById$(id): Observable<VideoModel> {
+    return this.http
+      .get<VideoModel>(`http://localhost:5000/api/videos/${id}`)
+      .pipe(catchError(err => this._handleError(err)));
+  }
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || "Error: Unable to complete request.";
     // if (err.status && err.status == 401) {
