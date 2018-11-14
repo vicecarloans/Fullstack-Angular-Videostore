@@ -13,17 +13,17 @@ import {
 } from "carbon-components-angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { TabHeaderComponent } from "./tab-header/tab-header.component";
-import { VideoTableComponent } from "./video-table/video-table.component";
+import { TabHeaderComponent } from "./components/tab-header/tab-header.component";
+import { VideoTableComponent } from "./components/video-table/video-table.component";
 import { HttpClientModule } from "@angular/common/http";
-import { ApiService } from "./core/api.service";
-import { AuthService } from "./auth/auth.service";
+import { ApiService } from "./service/api/api.service";
+import { AuthService } from "./service/auth/auth.service";
 import { FormsModule } from "@angular/forms";
-import { HeaderComponent } from "./header/header.component";
+import { HeaderComponent } from "./components/header/header.component";
 import { DashboardComponent } from "./screens/dashboard/dashboard.component";
 import { AuthenticationComponent } from "./screens/authentication/authentication.component";
 import StoreModule from "./flux/store";
-import { ReserveComponent } from './screens/reserve/reserve.component';
+import { ReserveComponent } from "./screens/reserve/reserve.component";
 @NgModule({
   declarations: [
     AppComponent,

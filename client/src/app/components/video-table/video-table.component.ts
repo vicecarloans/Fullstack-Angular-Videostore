@@ -8,10 +8,10 @@ import {
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
-import { ApiService } from "../core/api.service";
-import { VideoModel, VideoPaginationModel } from "../core/models/video.model";
-import { AppState } from "../core/models/store.model";
-import { AdminReducerModel } from "../core/models/admin.model";
+import { ApiService } from "../../service/api/api.service";
+import { VideoModel, VideoPaginationModel } from "../../models/video.model";
+import { AppState } from "../../models/store.model";
+import { AdminReducerModel } from "../../models/admin.model";
 import {
   TableModel,
   TableItem,
@@ -201,7 +201,7 @@ export class VideoTableComponent implements OnInit {
   }
 
   handleReserve(id) {
-    console.log(id);
+    this.router.navigateByUrl(`/reserve/${id}`);
   }
   selectPage(page) {
     this.getPage(page).then((data: Array<Array<any>>) => {
