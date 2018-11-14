@@ -7,10 +7,7 @@ import {
 import { AuthService } from "../auth/auth.service";
 import { throwError as ObservableThrowError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import {
-  VideoModel,
-  VideoPaginationModel
-} from "../../core/models/video.model";
+import { VideoModel, VideoPaginationModel } from "../../models/video.model";
 
 @Injectable({
   providedIn: "root"

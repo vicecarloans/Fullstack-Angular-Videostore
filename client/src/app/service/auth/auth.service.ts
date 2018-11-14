@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { LOGGING_IN, LOGGED_IN, LOGGED_OUT } from "../flux/admin";
+import { LOGGING_IN, LOGGED_IN, LOGGED_OUT } from "../../flux/admin";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   throwError as ObservableThrowError,
   Observable,
   BehaviorSubject
 } from "rxjs";
-import { TokenModel, AdminReducerModel } from "../core/models/admin.model";
-import { AppState } from "../core/models/store.model";
-import { StatusResponseModel } from "../core/models/status-response.model";
+import { TokenModel, AdminReducerModel } from "../../models/admin.model";
+import { AppState } from "../../models/store.model";
+import { StatusResponseModel } from "../../models/status-response.model";
 
 @Injectable({
   providedIn: "root"

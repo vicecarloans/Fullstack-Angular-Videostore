@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store, select } from "@ngrx/store";
-import { AdminReducerModel } from "../core/models/admin.model";
-import { AppState } from "../core/models/store.model";
-import { AuthService } from "../auth/auth.service";
+import { AdminReducerModel } from "../../models/admin.model";
+import { AppState } from "../../models/store.model";
+import { AuthService } from "../../service/auth/auth.service";
 import { Observable } from "rxjs";
 
 @Component({
