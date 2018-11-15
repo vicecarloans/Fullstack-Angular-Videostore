@@ -1,3 +1,41 @@
-<p>
-  reserve works!
-</p>
+<ibm-tile *ngIf="!loading" style="">
+  <div class="content-tile">
+    <div class="image-content">
+      <img src="{{videoInstance.image}}" />
+    </div>
+    <div class="content">
+        <div class="section">
+        <label label>Title</label>
+        <h3>{{videoInstance.title}}</h3>
+        </div>
+        <div class="section">
+        <label label>Running Time</label>
+        <h3>{{videoInstance.time}} Minutes</h3>
+        </div >
+        <div class="section">
+        <label label>Genre</label>
+        <h3>{{videoInstance.genre}}</h3>
+        </div>
+        <div class="section">
+        <label label>Rating</label>
+        <h3>{{videoInstance.rating}} stars</h3>
+        </div>
+        <div class="section">
+        <label label>Director</label>
+        <h3>{{videoInstance.director}}</h3>
+        </div>
+        <div class="section">
+        <label label>Customer</label>
+        <ibm-dropdown [(ngModel)]="selectedItem" (ngModelChange)="getCurrentItem($event);" *ngIf="!videoInstance._customerId">
+          <ibm-dropdown-list [items]="customerList"></ibm-dropdown-list>
+        </ibm-dropdown>
+
+        <h3 *ngIf="videoInstance._customerId">{{reserveName}}</h3>
+        <div class="submit-btn">
+          <button [disabled]="!isValid" ibmButton (click)="submitLogin();" style="width:30vw;">Reserve</button>
+        </div>
+        </div>
+    </div>
+  </div>
+</ibm-tile>
+<ibm-loading *ngIf="loading">Loading...</ibm-loading>

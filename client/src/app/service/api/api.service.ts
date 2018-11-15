@@ -8,6 +8,8 @@ import { AuthService } from "../auth/auth.service";
 import { throwError as ObservableThrowError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { VideoModel, VideoPaginationModel } from "../../models/video.model";
+import { CustomerModelDropDown } from "../../models/customer.model";
+import { ResponseContentType } from "@angular/http";
 
 @Injectable({
   providedIn: "root"
@@ -24,6 +26,26 @@ export class ApiService {
   getVideoById$(id): Observable<VideoModel> {
     return this.http
       .get<VideoModel>(`http://localhost:5000/api/videos/${id}`)
+      .pipe(catchError(err => this._handleError(err)));
+  }
+  getImageBlob(videoId, imagepath): Observable<any> {
+    return this.http
+      .get(
+        `http://localhost:5000/api/videos/${videoId}/banner?imagepath=${imagepath}`,
+        { responseType: "blob" }
+      )
+      .pipe(catchError(err => this._handleError(err)));
+  }
+  getCustomerInfoDropDown(): Observable<CustomerModelDropDown> {
+    return this.http
+      .get("http://localhost:5000/api/customers/names")
+      .pipe(catchError(err => this._handleError(err)));
+  }
+  reserveVideo(videoId, customerId): Observable<VideoModel> {
+    return this.http
+      .get<VideoModel>(
+        `http://localhost:5000/api/videos/${videoId}/reserve/${customerId}`
+      )
       .pipe(catchError(err => this._handleError(err)));
   }
   private _handleError(err: HttpErrorResponse | any): Observable<any> {

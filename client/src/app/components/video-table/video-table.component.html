@@ -11,7 +11,14 @@
 <ng-template #filterableHeaderTemplate let-data="data">
   <i><a [attr.href]="data.link">{{data}}</a></i>
 </ng-template>
-<input type="text" (keyup)="doFilter($event);" class="input-field">
+<div class="table-header">
+  <div class="input-filter-wrapper">
+    <input class="input-filter" type="text" (keyup)="doFilter($event);" placeholder="Search" />
+  </div>
+  <div class="add-video-btn" *ngIf="authorized">
+    <button ibmButton (click)="addVideo();">Add New Video</button>
+  </div>
+</div>
 
 <ibm-table *ngIf="!loading" [model]="videoTable" (sort)="customSort($event)" (filter)="doFilter($event)" [showSelectionColumn]="true"
 			[striped]="true"></ibm-table>

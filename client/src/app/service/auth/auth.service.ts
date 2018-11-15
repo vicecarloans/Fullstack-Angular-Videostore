@@ -82,8 +82,7 @@ export class AuthService {
           this._clearExpiration();
           this.setLoggedIn(false);
           this.userProfile = null;
-
-          this.router.navigate(["/"]);
+          this.router.navigateByUrl("/dashboard", { skipLocationChange: true });
         },
         err => {
           this._handleError(err);

@@ -19,3 +19,16 @@ export class VideoPaginationModel {
     public count: number
   ) {}
 }
+
+export class VideoFormModel {
+  constructor(
+    public _id: string = "",
+    public title: string = "",
+    public time: number = 0,
+    public genre: string = "",
+    public rating: number = 0,
+    public director: string = "",
+    public image: any = null,
+    public available: boolean = false
+  ) {}
+}

@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
     this.auth.logout();
   }
   ngOnInit() {
+    this.auth.getSession();
     this.admin = this.store.select("admin");
     this.admin.subscribe(v => {
       this.loading = v.loading;

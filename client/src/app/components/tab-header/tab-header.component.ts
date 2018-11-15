@@ -1,8 +1,8 @@
 import { Component, OnInit, NgModule } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { AppState } from "../core/models/store.model";
+import { AppState } from "../../models/store.model";
 import { Observable } from "rxjs";
-import { AdminReducerModel } from "../core/models/admin.model";
+import { AdminReducerModel } from "../../models/admin.model";
 
 @Component({
   selector: "app-tab-header",

@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 const mongoose = require('mongoose');
 const VideoModel = mongoose.model('videos');
 const multer = require('multer');
+const cloudinary = require("cloudinary");
+const keys = require("../config/keys");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
 const requireLogin = require('../middlewares/requireLogin');
 
 
@@ -50,25 +53,12 @@ router.get('/:id', async (req, res, next) => {
     const videoId = req.params.id;
     try{
         const video = await VideoModel.findById(videoId);
-        res.json({video});
+        res.json(video);
     }catch(e){
         next(e)
     }
     
 });
-
-/*
-    GET /api/videos/:id/banner?imagepath=...
-    Get banner by id of video
-    Query Param:
-    + id - id of current video to get banner
-    Response: Image stream
-*/
-router.get('/:id/banner/',(req, res, next) => {
-    console.log("Inside banner")
-    const imagepath = req.query.imagepath;
-    fs.createReadStream(imagepath).pipe(res);
-})
 
 /*
     POST /api/videos/:id/reserve/
@@ -83,8 +73,8 @@ router.get('/:id/banner/',(req, res, next) => {
     Response:
     New object of video
 */
-router.post('/:id/reserve/', async (req, res, next) => {
-    const customerId = req.body.customerId;
+router.get('/:id/reserve/:customerId', async (req, res, next) => {
+    const customerId = req.params.customerId;
     const videoId = req.params.id;
     try{
         const result = await VideoModel.findByIdAndUpdate(videoId, {
@@ -100,8 +90,17 @@ router.post('/:id/reserve/', async (req, res, next) => {
     
 });
 
-const storage = multer.diskStorage({
-    destination: "public/uploads/"
+
+cloudinary.config({
+    cloud_name: keys.CLOUDINARY_NAME,
+    api_key: keys.CLOUDINARY_API,
+    api_secret: keys.CLOUDINARY_SECRET
+});
+const storage = cloudinaryStorage({
+    cloudinary,
+    folder: "public",
+    allowedFormats: ["jpg","png","jpeg"],
+    transformation: [{ width: 500, height: 500, crop: "limit" }]
 })
 const uploading = multer({storage}).single('banner');
 /*
@@ -127,27 +126,25 @@ const uploading = multer({storage}).single('banner');
         "genre": "Fantasy",
         "rating": 5,
         "director": "J.K.K.Rowling",
-        "image": "public/uploads/34e29f5d2c797987004f741b17fc89c1",
+        "image": "http://cloudinary....",
         "__v": 0
     }
 */
 
 
 router.post('/', requireLogin, async (req,res,next) => {
-
-
     try{
         // Upload
         uploading(req, res, async (err) => {
-            console.log(req.body)
             const {title, time, genre, rating, director, available} = req.body;
+          
             const video = new VideoModel({
                 title,
                 time,
                 genre,
                 rating,
                 director,
-                image: req.file.path || '',
+                image: req.file.url || '',
                 available
             })
             const result = await video.save();
@@ -170,18 +167,22 @@ router.put('/:id', requireLogin, async (req, res, next) => {
         uploading(req, res, async (err) => {
             const videoId = req.params.id;
             const {title, time, genre, rating, director, available} = req.body;
-            const filepath = req.file ? req.file.path : '';
+            const filepath = req.file ? req.file.url : '';
+            const updateBody = {
+                title,
+                time,
+                genre,
+                rating,
+                director,
+                available,
+                _customerId: available && null,
+                modifiedAt: Date.now()
+            }
+            if(filepath){
+                updateBody.image = filepath
+            }
             const result = await VideoModel.findByIdAndUpdate(videoId, {
-                $set: {
-                    title: title,
-                    time,
-                    genre,
-                    rating,
-                    director,
-                    image: filepath,
-                    available,
-                    modifiedAt: Date.now()
-                }
+                $set: updateBody
             }, {new: true})
             res.json({result});
         });

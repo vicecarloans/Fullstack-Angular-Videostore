@@ -91,7 +91,7 @@ export class VideoTableComponent implements OnInit {
       this.videoPagination$.videos
     ).filter(data => {
       const result = data.reduce((acc, cell, i) => {
-        return acc || cell.data.toLowerCase().includes(keyword);
+        return acc || cell.data.toLowerCase().includes(keyword.toLowerCase());
       }, false);
       return result;
     });
@@ -132,6 +132,10 @@ export class VideoTableComponent implements OnInit {
             })
           ];
     });
+  }
+
+  addVideo() {
+    this.router.navigateByUrl("videos/create");
   }
   generateHeader() {
     return this.authorized

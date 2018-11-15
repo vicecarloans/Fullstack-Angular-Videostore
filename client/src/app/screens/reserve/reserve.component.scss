@@ -1,0 +1,22 @@
+.content-tile {
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  .image-content {
+    grid-column: 1;
+  }
+  .content {
+    grid-column-start: 2;
+    grid-column-end: span col3-start;
+  }
+}
+
+.section {
+  margin-bottom: 15px;
+  align-content: space-between;
+}
+.submit-btn {
+  margin-top: 15px;
+  text-align: center;
+}

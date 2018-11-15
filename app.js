@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-// const cleanAssets = require('./services/clean');
 const helmet = require('helmet');
 const keys = require("./config/keys");
 const passport = require("passport")
@@ -44,6 +43,5 @@ app.use(function(err, req, res, next) {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    // cleanAssets();
     console.log(`Server started on ${PORT}`);
 });

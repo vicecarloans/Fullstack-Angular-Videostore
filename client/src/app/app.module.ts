@@ -9,7 +9,10 @@ import {
   PaginationModule,
   InputModule,
   NFormsModule,
-  LoadingModule
+  LoadingModule,
+  TilesModule,
+  DropdownModule,
+  NotificationModule
 } from "carbon-components-angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -18,12 +21,14 @@ import { VideoTableComponent } from "./components/video-table/video-table.compon
 import { HttpClientModule } from "@angular/common/http";
 import { ApiService } from "./service/api/api.service";
 import { AuthService } from "./service/auth/auth.service";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HeaderComponent } from "./components/header/header.component";
 import { DashboardComponent } from "./screens/dashboard/dashboard.component";
 import { AuthenticationComponent } from "./screens/authentication/authentication.component";
 import StoreModule from "./flux/store";
 import { ReserveComponent } from "./screens/reserve/reserve.component";
+import { CreateVideoComponent } from "./screens/create-video/create-video.component";
+import { InputNumberValidatorDirective } from './shared/input-number-validator.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +37,9 @@ import { ReserveComponent } from "./screens/reserve/reserve.component";
     HeaderComponent,
     DashboardComponent,
     AuthenticationComponent,
-    ReserveComponent
+    ReserveComponent,
+    CreateVideoComponent,
+    InputNumberValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -48,7 +55,11 @@ import { ReserveComponent } from "./screens/reserve/reserve.component";
     FormsModule,
     LoadingModule,
     HttpClientModule,
-    StoreModule
+    StoreModule,
+    TilesModule,
+    DropdownModule,
+    ReactiveFormsModule,
+    NotificationModule
   ],
   providers: [ApiService, AuthService],
   bootstrap: [AppComponent]

@@ -39,7 +39,7 @@ router.get('/', requireLogin, async (req, res, next) => {
 });
 
 /*
-    GET /api/customers/:id
+    GET /api/customers/info/:id
     Get customer by id 
     Url Param:
     + id - id of specific customer to find
@@ -55,7 +55,7 @@ router.get('/', requireLogin, async (req, res, next) => {
         }
     }
 */
-router.get('/:id', requireLogin, async (req, res, next) => {
+router.get('/info/:id', requireLogin, async (req, res, next) => {
     try{
         const customerId = req.params.id;
         const customer = await CustomerModel.findById(customerId);
@@ -64,7 +64,30 @@ router.get('/:id', requireLogin, async (req, res, next) => {
         next(e);
     }
 });
-
+/*
+    GET /api/customers/names/
+    Get all names for dropdown box
+    Response:
+    {
+        customers: [
+            {   
+                _id: ...,
+                firstName: ...,
+                lastName: ...,
+            }
+        ]
+    }
+*/
+router.get('/names', async (req, res, next)  => {
+    try {
+        const customers = await CustomerModel.find()
+                                             .select('firstName lastName')
+                                             .exec();
+        res.json({customers});
+    }catch(e){
+        next(e);
+    }
+});
 /*
     POST /api/customers/
     Create new customer
