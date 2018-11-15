@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   TabsModule,
   IconModule,
@@ -12,7 +12,9 @@ import {
   LoadingModule,
   TilesModule,
   DropdownModule,
-  NotificationModule
+  NotificationModule,
+  ModalModule,
+  PlaceholderModule
 } from "carbon-components-angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -28,7 +30,7 @@ import { AuthenticationComponent } from "./screens/authentication/authentication
 import StoreModule from "./flux/store";
 import { ReserveComponent } from "./screens/reserve/reserve.component";
 import { CreateVideoComponent } from "./screens/create-video/create-video.component";
-import { InputNumberValidatorDirective } from './shared/input-number-validator.directive';
+import { UpdateVideoComponent } from "./screens/update-video/update-video.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,7 @@ import { InputNumberValidatorDirective } from './shared/input-number-validator.d
     AuthenticationComponent,
     ReserveComponent,
     CreateVideoComponent,
-    InputNumberValidatorDirective
+    UpdateVideoComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,10 @@ import { InputNumberValidatorDirective } from './shared/input-number-validator.d
     TilesModule,
     DropdownModule,
     ReactiveFormsModule,
-    NotificationModule
+    NotificationModule,
+    ModalModule,
+    PlaceholderModule,
+    BrowserAnimationsModule
   ],
   providers: [ApiService, AuthService],
   bootstrap: [AppComponent]

@@ -1,12 +1,26 @@
 /*eslint-disable */
-import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  ViewChild
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { AdminReducerModel } from "../../models/admin.model";
 import { AppState } from "../../models/store.model";
 import { VideoFormModel } from "../../models/video.model";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Router } from "@angular/router";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { ApiService } from "../../service/api/api.service";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  NgForm,
+  AbstractControl,
+  ValidatorFn
+} from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
@@ -20,10 +34,15 @@ export class CreateVideoComponent implements OnInit {
   authorized: boolean;
   isFormValid: boolean = false;
   imageUpload: any;
+  imageFile: any;
+  form: any;
+  submitting: boolean = false;
+  isSelectionInvalid: boolean = false;
   @Input()
   videoModel: VideoFormModel = new VideoFormModel();
-
+  videoForm: FormGroup;
   selectedGenre: any;
+
   genreList: Array<Object> = [
     {
       content: "Action",
@@ -81,20 +100,51 @@ export class CreateVideoComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private sanitizer: DomSanitizer
+    private api: ApiService
   ) {}
 
   onImageUpload(event) {
     console.log(event);
     this.readUrl(event);
   }
+  onSubmit() {
+    if (
+      this.videoForm.valid &&
+      this.selectedGenre &&
+      this.selectedRating &&
+      this.selectedStatus
+    ) {
+      const data = {
+        title: this.title.value,
+        time: this.time.value,
+        genre: this.selectedGenre.content,
+        rating: this.selectedRating.content,
+        director: this.director.value,
+        imagefile: this.imageFile,
+        available: this.selectedStatus.actualContent
+      };
+      this.submitting = true;
+      this.api.createVideo(data).subscribe(
+        res => {
+          console.log(res);
+          this.router.navigateByUrl("/dashboard");
+        },
+        err => console.log(err)
+      );
+    } else {
+      this.isSelectionInvalid = true;
+    }
+  }
   readUrl(event) {
     if (event.target.files && event.target.files[0]) {
+      this.imageFile = event.target.files[0];
       this.imageUpload = URL.createObjectURL(event.target.files[0]);
     }
   }
   getUrl() {
-    return `url(${this.imageUpload})`;
+    return this.imageUpload
+      ? `url(${this.imageUpload})`
+      : `url('../../../assets/profile.png')`;
   }
   onClose(event) {
     console.log(event);
@@ -103,10 +153,38 @@ export class CreateVideoComponent implements OnInit {
     console.log(event);
   }
   getCurrentRating(event) {
-    console.log(event);
+    console.log(this.selectedRating);
   }
   getCurrentStatus(event) {
     console.log(event);
+  }
+  get title() {
+    return this.videoForm.get("title");
+  }
+  get time() {
+    return this.videoForm.get("time");
+  }
+  get director() {
+    return this.videoForm.get("director");
+  }
+  // shouldDisable() {
+  //   let res = true;
+  //   if (this.videoForm.valid) {
+  //     if (this.selectedGenre && this.selectedRating && this.selectedStatus) {
+  //       res = false;
+  //     }
+  //   }
+  //   return res;
+  // }
+  inputNumberValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return isNaN(control.value) ? { isNotNumber: true } : null;
+    };
+  }
+  timeNotZero(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return Number(control.value) === 0 ? { isZero: true } : null;
+    };
   }
 
   ngOnInit() {
@@ -118,5 +196,18 @@ export class CreateVideoComponent implements OnInit {
         this.loading = false;
       }
     });
+    this.videoForm = new FormGroup({
+      title: new FormControl(this.videoModel.title, [Validators.required]),
+      time: new FormControl(this.videoModel.time, [
+        Validators.required,
+        this.inputNumberValidator(),
+        this.timeNotZero()
+      ]),
+      director: new FormControl(this.videoModel.director, [Validators.required])
+    });
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
   }
 }

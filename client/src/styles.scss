@@ -12,3 +12,17 @@ $font-path: "../node_modules/carbon-components/src/globals/fonts";
 .bx--tabs__nav-item {
   width: 100%;
 }
+
+label {
+  font-size: 12px;
+  font-weight: bold;
+}
+input {
+  margin-top: 5px;
+}
+.bx--list-box {
+  @extend input;
+}
+.bx--btn--secondary {
+  margin: 0 10px;
+}

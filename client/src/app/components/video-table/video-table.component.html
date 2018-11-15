@@ -1,12 +1,12 @@
 <ng-template #videoTablePaginationTemplate let-data="data">
-  <button *ngIf="!authorized" ibmButton (click)="handleReserve(data);">Reserve</button>
+  <button *ngIf="!authorized" ibmButton (click)="handleReserve(data.id);" [disabled]="!data.available">Reserve</button>
   
 </ng-template>
 <ng-template #videoTablePaginationTemplateUpdate let-data="data">
-  <button *ngIf="authorized" ibmButton>Update</button>
+  <button *ngIf="authorized" ibmButton (click)="handleUpdate(data);">Update</button>
 </ng-template>
 <ng-template #videoTablePaginationTemplateDelete let-data="data">
-  <button *ngIf="authorized" ibmButton>Delete</button>
+  <button *ngIf="authorized" ibmButton (click)="handleDelete(data);">Delete</button>
 </ng-template>
 <ng-template #filterableHeaderTemplate let-data="data">
   <i><a [attr.href]="data.link">{{data}}</a></i>
@@ -19,7 +19,7 @@
     <button ibmButton (click)="addVideo();">Add New Video</button>
   </div>
 </div>
-
+<ibm-placeholder></ibm-placeholder>
 <ibm-table *ngIf="!loading" [model]="videoTable" (sort)="customSort($event)" (filter)="doFilter($event)" [showSelectionColumn]="true"
 			[striped]="true"></ibm-table>
 <ibm-pagination *ngIf="!loading" [model]="videoTable" (selectPage)="selectPage($event)"></ibm-pagination>

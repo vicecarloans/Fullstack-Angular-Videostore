@@ -1,32 +1,33 @@
 <ibm-tile *ngIf="!loading">
   <h1>Create new video</h1>
-  <div *ngIf="!videoForm.form.valid" class="notifications">
-      <div *ngIf="title.invalid && (title.dirty || title.touched)">
+  <div *ngIf="isSelectionInvalid" class="notifications">
+      <div *ngIf="title.invalid && (title.dirty || title.touched) || isSelectionInvalid">
         <ibm-notification *ngIf="title.errors?.required" [notificationObj]="{type: 'error', title: 'Title cannot be blank'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="time.invalid && (time.dirty || time.touched)">
+      <div *ngIf="time.invalid && (time.dirty || time.touched) || isSelectionInvalid ">
         <ibm-notification *ngIf="time.errors?.required" [notificationObj]="{type: 'error', title: 'Running time cannot be blank'}">
 			  </ibm-notification>
         <ibm-notification *ngIf="time.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Running time has to be a number'}">
 			  </ibm-notification>
-      </div>
-      <div *ngIf="!selectedGenre && !(genre.dirty || genre.touched)">
-         <ibm-notification [notificationObj]="{type: 'error', title: 'Please select a genre'}">
+        <ibm-notification *ngIf="time.errors?.isZero" [notificationObj]="{type: 'error', title: 'Running time cannot be zero'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="!selectedRating && !(rating.dirty || rating.touched)">
-        <ibm-notification [notificationObj]="{type: 'error', title: 'Please select a rating'}">
-			  </ibm-notification>
-      </div>
-      <div *ngIf="director.invalid && (director.dirty || director.touched)">
+      <div *ngIf="director.invalid && (director.dirty || director.touched) || isSelectionInvalid">
         <ibm-notification *ngIf="director.errors?.required" [notificationObj]="{type: 'error', title: 'Director cannot be blank'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="status.invalid && !(status.dirty || status.touched)">
-        <ibm-notification [notificationObj]="{type: 'error', title: 'Please select a status'}">
+      <div *ngIf="isSelectionInvalid">
+         <ibm-notification *ngIf="!selectedGenre?.selected" [notificationObj]="{type: 'error', title: 'Please select a genre'}">
+			  </ibm-notification>
+          <ibm-notification *ngIf="!selectedRating?.selected" [notificationObj]="{type: 'error', title: 'Please select a rating'}">
+			  </ibm-notification>
+          <ibm-notification *ngIf="!selectedStatus?.selected" [notificationObj]="{type: 'error', title: 'Please select a status'}">
 			  </ibm-notification>
       </div>
+
+
+
       
   </div>
   <div class="content-tile">
@@ -44,51 +45,49 @@
       </div>
     </div>
     <div class="content">
-      <form (ngSubmit)="onSubmit()" #videoForm="ngForm"  enctype="multipart/form-data">
+      <form (ngSubmit)="onSubmit()" [formGroup]="videoForm"  enctype="multipart/form-data">
       
         <div class="section">
-          <ibm-label>
+
             <label label for="title">Title</label>
-            <input ibmText id="title" [(ngModel)]="videoModel.title" name="title" required #title="ngModel"/>
-          </ibm-label>
-        </div>
-        <div class="section">
-          <ibm-label>
-            <label label for="time">Running Time</label>
-            <input ibmText id="time" [(ngModel)]="videoModel.time" name="time" required appInputNumberValidator="{{videoModel.time}}" #time="ngModel"/>
-          </ibm-label>
+            <input ibmText id="title" formControlName="title" required/>
+
         </div>
         <div class="section">
 
-            <label label>Genre</label>
-            
-          <ibm-dropdown [(ngModel)]="selectedGenre" name="genre" (ngModelChange)="getCurrentGenre($event);" placeholder="Select a genre" #genre="ngModel">
+            <label label for="time">Running Time</label>
+            <input ibmText id="time" formControlName="time" required/>
+ 
+        </div>
+        <div class="section">
+          <label label>Genre</label>
+          <ibm-dropdown [(ngModel)]="selectedGenre" [ngModelOptions]="{standalone: true}" name="genre" (ngModelChange)="getCurrentGenre($event);" placeholder="Select a genre">
               <ibm-dropdown-list [items]="genreList"></ibm-dropdown-list>
             </ibm-dropdown>
         </div>
         <div class="section">
           <label label>Rating</label>
             
-          <ibm-dropdown  [(ngModel)]="selectedRating" name="rating" (ngModelChange)="getCurrentRating($event);" placeholder="Select a rating" #rating="ngModel">
+          <ibm-dropdown  [(ngModel)]="selectedRating" [ngModelOptions]="{standalone: true}" name="rating" (ngModelChange)="getCurrentRating($event);" placeholder="Select a rating">
               <ibm-dropdown-list [items]="ratingList"></ibm-dropdown-list>
             </ibm-dropdown>
         </div>
         <div class="section">
-          <ibm-label>
+          
             <label label for="director">Director</label>
-            <input ibmText id="director" [(ngModel)]="videoModel.director" name="director" required #director="ngModel"/>
-          </ibm-label>
+            <input ibmText id="director" formControlName="director" required/>
+
         </div>
         <div class="section">
 
             <label label>Status</label>
            
-           <ibm-dropdown [(ngModel)]="selectedStatus" name="status" (ngModelChange)="getCurrentStatus($event);" placeholder="Select a movie status" #status="ngModel">
+           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" (ngModelChange)="getCurrentStatus($event);" placeholder="Select a movie status">
               <ibm-dropdown-list [items]="statusList"></ibm-dropdown-list>
             </ibm-dropdown>
         </div>
         <div class="submit-btn">
-          <button type="submit" ibmButton [disabled]="isFormValid" style="width:30vw;">Submit</button>
+          <button type="submit" [disabled]="submitting" ibmButton style="width:30vw;">Submit</button>
         </div>
       </form>
     </div>

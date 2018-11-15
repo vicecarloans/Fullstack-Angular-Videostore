@@ -15,8 +15,10 @@ import { AdminReducerModel } from "../../models/admin.model";
 import {
   TableModel,
   TableItem,
-  TableHeaderItem
+  TableHeaderItem,
+  ModalService
 } from "carbon-components-angular";
+import { ResourceLoader } from "@angular/compiler";
 
 @Component({
   selector: "app-video-table",
@@ -53,7 +55,8 @@ export class VideoTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private modalService: ModalService
   ) {
     this.admin = this.store.select("admin");
   }
@@ -91,7 +94,13 @@ export class VideoTableComponent implements OnInit {
       this.videoPagination$.videos
     ).filter(data => {
       const result = data.reduce((acc, cell, i) => {
-        return acc || cell.data.toLowerCase().includes(keyword.toLowerCase());
+        return (
+          acc ||
+          cell.data
+            .toString()
+            .toLowerCase()
+            .includes(keyword && keyword.toLowerCase())
+        );
       }, false);
       return result;
     });
@@ -127,7 +136,7 @@ export class VideoTableComponent implements OnInit {
               data: video.available ? "Available" : "Unavailable"
             }),
             new TableItem({
-              data: video._id,
+              data: { id: video._id, available: video.available },
               template: this.videoTablePaginationTemplate
             })
           ];
@@ -206,6 +215,35 @@ export class VideoTableComponent implements OnInit {
 
   handleReserve(id) {
     this.router.navigateByUrl(`/reserve/${id}`);
+  }
+  handleDelete(id) {
+    this.modalService.show({
+      modalType: "danger",
+      modalTitle: "Delete this video",
+      modalContent:
+        "Are you sure you want to delete this video? Deletion of this content cannot be reversed",
+      buttons: [
+        {
+          text: "Cancel"
+        },
+        {
+          text: "Delete",
+          click: () => this.confirmDelete(id)
+        }
+      ]
+    });
+  }
+  confirmDelete(id) {
+    this.api.deleteVideo(id).subscribe(
+      res => {
+        console.log(res);
+        location.reload();
+      },
+      err => console.log(err)
+    );
+  }
+  handleUpdate(id) {
+    console.log(id);
   }
   selectPage(page) {
     this.getPage(page).then((data: Array<Array<any>>) => {
