@@ -1,0 +1,21 @@
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  margin: 20px 0;
+  .input-filter-wrapper {
+    grid-column: 2;
+    .input-filter {
+      min-width: 100%;
+      min-height: 40px;
+      border: 1px solid #3d70b2;
+      outline: none;
+      padding-left: 15px;
+      font-size: 14px;
+    }
+  }
+  .add-customer-btn {
+    grid-column: 3;
+    justify-self: flex-end;
+  }
+}

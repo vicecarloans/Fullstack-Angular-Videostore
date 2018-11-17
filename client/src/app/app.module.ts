@@ -14,7 +14,8 @@ import {
   DropdownModule,
   NotificationModule,
   ModalModule,
-  PlaceholderModule
+  PlaceholderModule,
+  StaticIconModule
 } from "carbon-components-angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -31,6 +32,7 @@ import StoreModule from "./flux/store";
 import { ReserveComponent } from "./screens/reserve/reserve.component";
 import { CreateVideoComponent } from "./screens/create-video/create-video.component";
 import { UpdateVideoComponent } from "./screens/update-video/update-video.component";
+import { CustomerTableComponent } from "./components/customer-table/customer-table.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,8 @@ import { UpdateVideoComponent } from "./screens/update-video/update-video.compon
     AuthenticationComponent,
     ReserveComponent,
     CreateVideoComponent,
-    UpdateVideoComponent
+    UpdateVideoComponent,
+    CustomerTableComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { UpdateVideoComponent } from "./screens/update-video/update-video.compon
     NotificationModule,
     ModalModule,
     PlaceholderModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    StaticIconModule
   ],
   providers: [ApiService, AuthService],
   bootstrap: [AppComponent]

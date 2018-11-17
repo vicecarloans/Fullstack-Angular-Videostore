@@ -8,6 +8,10 @@ import { AuthService } from "../auth/auth.service";
 import { throwError as ObservableThrowError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { VideoModel, VideoPaginationModel } from "../../models/video.model";
+import {
+  CustomerModel,
+  CustomerPaginationModel
+} from "../../models/customer.model";
 import { CustomerModelDropDown } from "../../models/customer.model";
 import { ResponseContentType } from "@angular/http";
 
@@ -63,7 +67,9 @@ export class ApiService {
     formData.append("genre", genre);
     formData.append("rating", rating);
     formData.append("director", director);
-    formData.append("banner", imagefile, imagefile.name);
+    if (imagefile) {
+      formData.append("banner", imagefile, imagefile.name);
+    }
     formData.append("available", available);
     return this.http
       .post<VideoModel>(`http://localhost:5000/api/videos`, formData, {
@@ -71,7 +77,26 @@ export class ApiService {
       })
       .pipe(catchError(err => this._handleError(err)));
   }
-
+  updateVideo(
+    id,
+    { title, time, genre, rating, director, imagefile, available }
+  ): Observable<VideoModel> {
+    let formData: FormData = new FormData();
+    formData.append("title", title);
+    formData.append("time", time);
+    formData.append("genre", genre);
+    formData.append("rating", rating);
+    formData.append("director", director);
+    if (imagefile) {
+      formData.append("banner", imagefile, imagefile.name);
+    }
+    formData.append("available", available);
+    return this.http
+      .put<VideoModel>(`http://localhost:5000/api/videos/${id}`, formData, {
+        withCredentials: true
+      })
+      .pipe(catchError(err => this._handleError(err)));
+  }
   deleteVideo(id) {
     return this.http
       .delete(`http://localhost:5000/api/videos/${id}`, {
@@ -79,6 +104,15 @@ export class ApiService {
       })
       .pipe(catchError(err => this._handleError(err)));
   }
+
+  getCustomers$(): Observable<CustomerPaginationModel> {
+    return this.http
+      .get<CustomerPaginationModel>("http://localhost:5000/api/customers", {
+        withCredentials: true
+      })
+      .pipe(catchError(err => this._handleError(err)));
+  }
+
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || "Error: Unable to complete request.";
     // if (err.status && err.status == 401) {

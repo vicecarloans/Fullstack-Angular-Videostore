@@ -21,7 +21,6 @@ import {
   AbstractControl,
   ValidatorFn
 } from "@angular/forms";
-import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-create-video",
@@ -35,7 +34,6 @@ export class CreateVideoComponent implements OnInit {
   isFormValid: boolean = false;
   imageUpload: any;
   imageFile: any;
-  form: any;
   submitting: boolean = false;
   isSelectionInvalid: boolean = false;
   @Input()
@@ -146,18 +144,6 @@ export class CreateVideoComponent implements OnInit {
       ? `url(${this.imageUpload})`
       : `url('../../../assets/profile.png')`;
   }
-  onClose(event) {
-    console.log(event);
-  }
-  getCurrentGenre(event) {
-    console.log(event);
-  }
-  getCurrentRating(event) {
-    console.log(this.selectedRating);
-  }
-  getCurrentStatus(event) {
-    console.log(event);
-  }
   get title() {
     return this.videoForm.get("title");
   }
@@ -205,9 +191,5 @@ export class CreateVideoComponent implements OnInit {
       ]),
       director: new FormControl(this.videoModel.director, [Validators.required])
     });
-  }
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
   }
 }

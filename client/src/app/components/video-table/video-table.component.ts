@@ -18,7 +18,6 @@ import {
   TableHeaderItem,
   ModalService
 } from "carbon-components-angular";
-import { ResourceLoader } from "@angular/compiler";
 
 @Component({
   selector: "app-video-table",
@@ -28,7 +27,6 @@ import { ResourceLoader } from "@angular/compiler";
 export class VideoTableComponent implements OnInit {
   videoListSub: Subscription;
   videoPagination$: VideoPaginationModel;
-  video$: VideoModel[];
   admin: Observable<AdminReducerModel>;
   authorized: boolean;
   public loading: boolean = true;
@@ -41,11 +39,6 @@ export class VideoTableComponent implements OnInit {
   set totalDataLength(value) {
     this.videoTable.totalDataLength = value;
   }
-
-  @ViewChild("filter")
-  filter: TemplateRef<any>;
-  @ViewChild("filterableHeaderTemplate")
-  protected filterableHeaderTemplate: TemplateRef<any>;
   @ViewChild("videoTablePaginationTemplate")
   protected videoTablePaginationTemplate: TemplateRef<any>;
   @ViewChild("videoTablePaginationTemplateUpdate")
@@ -64,11 +57,6 @@ export class VideoTableComponent implements OnInit {
     this.videoTable.pageLength = 10;
 
     this.admin.subscribe(state => {
-      this.loading = state.loading;
-      setTimeout(() => {
-        this.videoTable.header = this.generateHeader();
-      }, 300);
-
       this.authorized = state.authorized;
 
       this.videoListSub = this.api.getVideos$().subscribe(
@@ -79,6 +67,8 @@ export class VideoTableComponent implements OnInit {
           );
           this.videoTable.totalDataLength = this.videoPagination$.count;
           this.selectPage(1);
+          this.videoTable.header = this.generateHeader();
+          this.loading = false;
         },
         err => {
           console.log(err);
@@ -149,28 +139,17 @@ export class VideoTableComponent implements OnInit {
   generateHeader() {
     return this.authorized
       ? [
-          new TableHeaderItem({
-            data: "Title",
-            filterTemplate: this.filter
-          }),
-          new TableHeaderItem({
-            data: "Running Time"
-          }),
+          new TableHeaderItem({ data: "Title" }),
+          new TableHeaderItem({ data: "Running Time" }),
           new TableHeaderItem({ data: "Genre" }),
           new TableHeaderItem({ data: "Rating" }),
-          new TableHeaderItem({
-            data: "Director"
-          }),
+          new TableHeaderItem({ data: "Director" }),
           new TableHeaderItem({ data: "Status" }),
           new TableHeaderItem({ data: "Update" }),
           new TableHeaderItem({ data: "Delete" })
         ]
       : [
-          new TableHeaderItem({ data: "Title", filterTemplate: this.filter }),
-          // new FilterableHeaderItem({
-          //   data: "Title",
-          //   filterTemplate: this.filter
-          // }),
+          new TableHeaderItem({ data: "Title" }),
           new TableHeaderItem({ data: "Running Time" }),
           new TableHeaderItem({ data: "Genre" }),
           new TableHeaderItem({ data: "Rating" }),
@@ -217,21 +196,35 @@ export class VideoTableComponent implements OnInit {
     this.router.navigateByUrl(`/reserve/${id}`);
   }
   handleDelete(id) {
-    this.modalService.show({
-      modalType: "danger",
-      modalTitle: "Delete this video",
-      modalContent:
-        "Are you sure you want to delete this video? Deletion of this content cannot be reversed",
-      buttons: [
-        {
-          text: "Cancel"
-        },
-        {
-          text: "Delete",
-          click: () => this.confirmDelete(id)
-        }
-      ]
-    });
+    if (this.authorized) {
+      this.modalService.show({
+        modalType: "danger",
+        modalTitle: "Delete this video",
+        modalContent:
+          "Are you sure you want to delete this video? Deletion of this content cannot be reversed",
+        buttons: [
+          {
+            text: "Cancel"
+          },
+          {
+            text: "Delete",
+            click: () => this.confirmDelete(id)
+          }
+        ]
+      });
+    } else {
+      this.modalService.show({
+        modalType: "danger",
+        modalTitle: "Uh-oh",
+        modalContent:
+          "I know what you're trying to do ;). Please don't do that without signing in",
+        buttons: [
+          {
+            text: "I understand...Sorry..."
+          }
+        ]
+      });
+    }
   }
   confirmDelete(id) {
     this.api.deleteVideo(id).subscribe(
@@ -243,7 +236,7 @@ export class VideoTableComponent implements OnInit {
     );
   }
   handleUpdate(id) {
-    console.log(id);
+    this.router.navigateByUrl(`/update/video/${id}`);
   }
   selectPage(page) {
     this.getPage(page).then((data: Array<Array<any>>) => {
@@ -272,19 +265,5 @@ export class VideoTableComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.videoListSub.unsubscribe();
-  }
-}
-
-class FilterableHeaderItem extends TableHeaderItem {
-  filter(item: TableItem): boolean {
-    if (
-      typeof item.data === "string" &&
-      item.data.indexOf(this.filterData.data) >= 0
-    ) {
-      this.filterCount = 1;
-      return false;
-    }
-    this.filterCount = 0;
-    return true;
   }
 }

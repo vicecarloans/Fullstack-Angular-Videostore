@@ -1,7 +1,12 @@
 <ibm-tile *ngIf="!loading" style="">
   <div class="content-tile">
     <div class="image-content">
-      <img src="{{videoInstance.image}}" />
+      <div class="avatar-upload">
+      <div class="avatar-preview">
+            <div id="imagePreview" [ngStyle]="{'background-image': getUrl()}">
+            </div>
+        </div>
+      </div>
     </div>
     <div class="content">
         <div class="section">

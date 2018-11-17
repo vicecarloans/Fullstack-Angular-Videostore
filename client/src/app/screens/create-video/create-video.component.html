@@ -35,11 +35,11 @@
       <div class="avatar-upload">
           <div class="avatar-edit">
               <input (change)="onImageUpload($event);" type='file' id="imageUpload" accept=".png, .jpg, .jpeg"  />
-              <label for="imageUpload"></label>
+              <label for="imageUpload"><i class="material-icons iconUpload">file_upload</i></label>
           </div>
           <div class="avatar-preview">
               <div id="imagePreview" [ngStyle]="{'background-image': getUrl()}">
-                <ibm-icon color="dark" icon="icon--upload"></ibm-icon>
+                
               </div>
           </div>
       </div>

@@ -51,6 +51,11 @@ export class ReserveComponent implements OnInit {
       }
     );
   }
+  getUrl() {
+    return this.videoInstance.image
+      ? `url(${this.videoInstance.image})`
+      : `url('../../../assets/profile.png')`;
+  }
   ngOnInit() {
     this.api.getVideoById$(this.videoId$).subscribe(res => {
       this.videoInstance = res;
