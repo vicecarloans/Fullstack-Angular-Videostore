@@ -33,6 +33,8 @@ import { ReserveComponent } from "./screens/reserve/reserve.component";
 import { CreateVideoComponent } from "./screens/create-video/create-video.component";
 import { UpdateVideoComponent } from "./screens/update-video/update-video.component";
 import { CustomerTableComponent } from "./components/customer-table/customer-table.component";
+import { CreateCustomerComponent } from './screens/create-customer/create-customer.component';
+import { UpdateCustomerComponent } from './screens/update-customer/update-customer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +46,9 @@ import { CustomerTableComponent } from "./components/customer-table/customer-tab
     ReserveComponent,
     CreateVideoComponent,
     UpdateVideoComponent,
-    CustomerTableComponent
+    CustomerTableComponent,
+    CreateCustomerComponent,
+    UpdateCustomerComponent
   ],
   imports: [
     BrowserModule,

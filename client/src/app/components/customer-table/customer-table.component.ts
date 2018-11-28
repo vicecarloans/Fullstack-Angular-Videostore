@@ -21,6 +21,7 @@ import {
   TableHeaderItem,
   ModalService
 } from "carbon-components-angular";
+import { UpdateCustomerComponent } from "../../screens/update-customer/update-customer.component";
 
 @Component({
   selector: "app-customer-table",
@@ -176,6 +177,15 @@ export class CustomerTableComponent implements OnInit {
     );
     this.loading = false;
   }
+  addCustomer(){
+    this.router.navigateByUrl("customers/create");
+  }
+
+  
+  handleUpdate(id) {
+    this.router.navigateByUrl(`/update/customer/${id}`);
+  }
+
 
   ngOnInit() {
     this.customerTable.pageLength = 10;
