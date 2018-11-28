@@ -21,7 +21,7 @@ npm run dev
 To test this application, use this admin credentials
 
 ```
-email: root@admin.com
+email: admin@root.com
 password: root
 ```
 
