@@ -1,3 +1,99 @@
-<p>
-  update-customer works!
-</p>
+<ibm-tile *ngIf="!loading">
+  <h1>Edit video</h1>
+  <div *ngIf="isSelectionInvalid" class="notifications">
+      <div *ngIf="title.invalid && (title.dirty || title.touched) || isSelectionInvalid">
+        <ibm-notification *ngIf="title.errors?.required" [notificationObj]="{type: 'error', title: 'Title cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="time.invalid && (time.dirty || time.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="time.errors?.required" [notificationObj]="{type: 'error', title: 'Running time cannot be blank'}">
+			  </ibm-notification>
+        <ibm-notification *ngIf="time.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Running time has to be a number'}">
+			  </ibm-notification>
+        <ibm-notification *ngIf="time.errors?.isZero" [notificationObj]="{type: 'error', title: 'Running time cannot be zero'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="director.invalid && (director.dirty || director.touched) || isSelectionInvalid">
+        <ibm-notification *ngIf="director.errors?.required" [notificationObj]="{type: 'error', title: 'Director cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="isSelectionInvalid">
+         <ibm-notification *ngIf="!selectedGenre?.selected" [notificationObj]="{type: 'error', title: 'Please select a genre'}">
+			  </ibm-notification>
+          <ibm-notification *ngIf="!selectedRating?.selected" [notificationObj]="{type: 'error', title: 'Please select a rating'}">
+			  </ibm-notification>
+          <ibm-notification *ngIf="!selectedStatus?.selected" [notificationObj]="{type: 'error', title: 'Please select a status'}">
+			  </ibm-notification>
+      </div>
+
+
+
+      
+  </div>
+  <div class="content-tile">
+    <div class="image-content">
+      <div class="avatar-upload">
+          <div class="avatar-edit">
+              <input (change)="onImageUpload($event);" type='file' id="imageUpload" accept=".png, .jpg, .jpeg"  />
+              <label for="imageUpload"><i class="material-icons iconUpload">file_upload</i></label>
+          </div>
+          <div class="avatar-preview">
+              <div id="imagePreview" [ngStyle]="{'background-image': getUrl()}">
+                <ibm-icon color="dark" icon="icon--upload"></ibm-icon>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="content">
+      <form (ngSubmit)="onSubmit()" [formGroup]="videoForm"  enctype="multipart/form-data">
+      
+        <div class="section">
+
+            <label label for="title">Title</label>
+            <input ibmText id="title" formControlName="title" required/>
+
+        </div>
+        <div class="section">
+
+            <label label for="time">Running Time</label>
+            <input ibmText id="time" formControlName="time" required/>
+ 
+        </div>
+        <div class="section">
+          <label label>Genre</label>
+          <ibm-dropdown [(ngModel)]="selectedGenre" [ngModelOptions]="{standalone: true}" name="genre" placeholder="Select a genre">
+              <ibm-dropdown-list [items]="genreList"></ibm-dropdown-list>
+            </ibm-dropdown>
+        </div>
+        <div class="section">
+          <label label>Rating</label>
+            
+          <ibm-dropdown  [(ngModel)]="selectedRating" [ngModelOptions]="{standalone: true}" name="rating" placeholder="Select a rating">
+              <ibm-dropdown-list [items]="ratingList"></ibm-dropdown-list>
+            </ibm-dropdown>
+        </div>
+        <div class="section">
+          
+            <label label for="director">Director</label>
+            <input ibmText id="director" formControlName="director" required/>
+
+        </div>
+        <div class="section">
+
+            <label label>Status</label>
+           
+           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" placeholder="Select a movie status">
+              <ibm-dropdown-list [items]="statusList"></ibm-dropdown-list>
+            </ibm-dropdown>
+        </div>
+        <div class="submit-btn">
+          <button type="submit" [disabled]="submitting" ibmButton style="width:30vw;">Submit</button>
+        </div>
+      </form>
+    </div>
+
+
+  
+  </div>
+</ibm-tile>
+<ibm-loading *ngIf="loading">Loading...</ibm-loading>

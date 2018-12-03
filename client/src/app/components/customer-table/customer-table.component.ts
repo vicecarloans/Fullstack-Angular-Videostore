@@ -32,6 +32,7 @@ export class CustomerTableComponent implements OnInit {
   customerListSub: Subscription;
   customerPagination$: CustomerPaginationModel;
   admin: Observable<AdminReducerModel>;
+  authorized: boolean;
   loading: boolean = true;
   @Input()
   customerTable = new TableModel();
@@ -54,6 +55,34 @@ export class CustomerTableComponent implements OnInit {
   ) {
     this.admin = this.store.select("admin");
   }
+
+
+
+  ngOnInit() {
+    this.customerTable.pageLength = 10;
+
+    this.admin.subscribe(state => {
+      this.authorized = state.authorized;
+
+      this.customerListSub = this.api.getCustomers$().subscribe(
+        res => {
+          this.customerPagination$ = res;
+          this.customerTable.data = this.generateBody(
+            this.customerPagination$.customers
+          );
+          this.customerTable.totalDataLength = this.customerPagination$.count;
+          this.selectPage(1);
+          this.customerTable.header = this.generateHeader();
+          this.loading = false;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    });
+  }
+
+
   customSort(index: number) {
     this.sort(this.customerTable, index);
   }
@@ -187,16 +216,49 @@ export class CustomerTableComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-    this.customerTable.pageLength = 10;
-    this.admin.subscribe(v => {
-      if (!v.authorized) {
-        this.router.navigateByUrl("/dashboard");
-      } else {
-        this.initTable();
-      }
-    });
+  handleDelete(id) {
+    if (this.authorized) {
+      this.modalService.show({
+        modalType: "danger",
+        modalTitle: "Delete this customer",
+        modalContent:
+          "Are you sure you want to delete the customer? Deletion of this customer cannot be reversed",
+        buttons: [
+          {
+            text: "Cancel"
+          },
+          {
+            text: "Delete",
+            click: () => this.confirmDelete(id)
+          }
+        ]
+      });
+    } else {
+      this.modalService.show({
+        modalType: "danger",
+        modalTitle: "Uh-oh",
+        modalContent:
+          "I know what you're trying to do ;). Please don't do that without signing in",
+        buttons: [
+          {
+            text: "I understand...Sorry..."
+          }
+        ]
+      });
+    }
   }
+  confirmDelete(id) {
+    this.api.deleteCustomer(id).subscribe(
+      res => {
+        console.log(res);
+        location.reload();
+      },
+      err => console.log(err)
+    );
+  }
+
+
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.

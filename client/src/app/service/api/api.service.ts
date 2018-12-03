@@ -113,6 +113,44 @@ export class ApiService {
       .pipe(catchError(err => this._handleError(err)));
   }
 
+
+
+//
+  createCustomer({
+    firstname,
+    lastname,
+    address,
+    city,
+    phonenumber,
+    imagefile,
+    active
+  }): Observable<VideoModel> {
+    let formData: FormData = new FormData();
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
+    formData.append("address", address);
+    formData.append("city", city);
+    formData.append("phonenumber", phonenumber);
+    if (imagefile) {
+      formData.append("banner", imagefile, imagefile.name);
+    }
+    formData.append("active", active);
+    return this.http
+      .post<CustomerModel>(`http://localhost:5000/api/customers`, formData, {
+        withCredentials: true
+      })
+      .pipe(catchError(err => this._handleError(err)));
+  }
+//
+
+  deleteCustomer(id) {
+    return this.http
+      .delete(`http://localhost:5000/api/customers/${id}`, {
+        withCredentials: true
+      })
+      .pipe(catchError(err => this._handleError(err)));
+  }
+
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || "Error: Unable to complete request.";
     // if (err.status && err.status == 401) {
