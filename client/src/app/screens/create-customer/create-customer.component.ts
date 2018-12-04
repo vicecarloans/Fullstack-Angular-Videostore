@@ -61,26 +61,19 @@ export class CreateCustomerComponent implements OnInit {
     private api: ApiService
   ) {}
 
-  onImageUpload(event) {
-    console.log(event);
-    this.readUrl(event);
-  }
-
   onSubmit() {
     if (
-      this.firstname&&
+      this.firstName&&
       this.customerForm.valid &&
       this.selectedStatus
     ) {
-      const data = {
-          
-        firstname: this.firstname.value,
-        lastname: this.lastname.value,
+      const data = { 
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
         address: this.address.value,
         city: this.city.value,
-        phonenumber: this.phonenumber.value,
-        imagefile: this.imageFile,
-        active: this.selectedStatus.actualContent
+        phoneNumber: this.phoneNumber.value,
+        status: this.selectedStatus.actualContent
       };
       this.submitting = true;
       this.api.createCustomer(data).subscribe(
@@ -94,12 +87,7 @@ export class CreateCustomerComponent implements OnInit {
       this.isSelectionInvalid = true;
     }
   }
-  readUrl(event) {
-    if (event.target.files && event.target.files[0]) {
-      this.imageFile = event.target.files[0];
-      this.imageUpload = URL.createObjectURL(event.target.files[0]);
-    }
-  }
+
 //
   
 
@@ -108,11 +96,11 @@ export class CreateCustomerComponent implements OnInit {
       ? `url(${this.imageUpload})`
       : `url('../../../assets/profile.png')`;
   }
-  get firstname() {
+  get firstName() {
     return this.customerForm.get("firstName");
   }
-  get lastname() {
-    return this.customerForm.get("lastname");
+  get lastName() {
+    return this.customerForm.get("lastName");
   }
   get city() {
     return this.customerForm.get("city");
@@ -123,8 +111,8 @@ export class CreateCustomerComponent implements OnInit {
   }
 
 
-  get phonenumber() {
-    return this.customerForm.get("phonenumber");
+  get phoneNumber() {
+    return this.customerForm.get("phoneNumber");
   }
 
   inputNumberValidator(): ValidatorFn {
@@ -144,11 +132,11 @@ export class CreateCustomerComponent implements OnInit {
       }
     });
     this.customerForm = new FormGroup({
-      firstname: new FormControl(this.customerModel.firstName, [Validators.required]),
-      lastname: new FormControl(this.customerModel.lastName, [Validators.required]),
+      firstName: new FormControl(this.customerModel.firstName, [Validators.required]),
+      lastName: new FormControl(this.customerModel.lastName, [Validators.required]),
       city: new FormControl(this.customerModel.city, [Validators.required]),
       address: new FormControl(this.customerModel.address, [Validators.required]),
-      phonenumber: new FormControl(this.customerModel.phoneNumber, [Validators.required, this.inputNumberValidator()]),
+      phoneNumber: new FormControl(this.customerModel.phoneNumber, [Validators.required, this.inputNumberValidator()]),
     });
   }
 

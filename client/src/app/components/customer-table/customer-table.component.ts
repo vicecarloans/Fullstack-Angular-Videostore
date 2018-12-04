@@ -120,7 +120,7 @@ export class CustomerTableComponent implements OnInit {
         new TableItem({ data: customer.address }),
         new TableItem({ data: customer.city }),
         new TableItem({ data: customer.phoneNumber }),
-        new TableItem({ data: customer.status ? "Active" : "Expired" }),
+        new TableItem({ data: customer.active ? "Active" : "Inactive" }),
         new TableItem({
           data: customer._id,
           template: this.customerPaginationUpdate

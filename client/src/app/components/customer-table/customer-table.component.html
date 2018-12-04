@@ -1,14 +1,14 @@
 <ng-template #customerPaginationUpdate let-data="data">
-  <button ibmButton (click)="handleUpdate(data);">Update</button>
+  <button  ibmButton (click)="handleUpdate(data);">Update</button>
 </ng-template>
 <ng-template #customerPaginationDelete let-data="data">
-  <button ibmButton (click)="handleDelete(data);">Delete</button>
+  <button  ibmButton (click)="handleDelete(data);">Delete</button>
 </ng-template>
 <div class="table-header">
   <div class="input-filter-wrapper">
     <input class="input-filter" type="text" (keyup)="doFilter($event);" placeholder="Search" />
   </div>
-  <div class="add-customer-btn">
+  <div class="add-customer-btn" *ngIf="authorized">
     <button ibmButton (click)="addCustomer();">Add New Customer</button>
   </div>
 </div>

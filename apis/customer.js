@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const requireLogin = require('../middlewares/requireLogin')
-const CustomerModel = mongoose.model("customers");
+const CustomerModel = mongoose.model('customers');
+const multer = require('multer');
+const cloudinary = require("cloudinary");
+const keys = require("../config/keys");
+const cloudinaryStorage = require('multer-storage-cloudinary');
+
+const requireLogin = require('../middlewares/requireLogin');
+
+
 
 /*
     GET /api/customers?offset=...&limit=...
@@ -30,7 +37,7 @@ router.get('/', requireLogin, async (req, res, next) => {
         res.json({
             customers,
             offset,
-            limit     
+            count     
         });
     }catch(e){
         next(e);
@@ -108,6 +115,7 @@ router.get('/names', async (req, res, next)  => {
     }
 */
 router.post('/', requireLogin, async (req, res, next) => {
+    console.log(req.body);
     try{
         const {firstName, lastName, address, city, phoneNumber, status} = req.body
         const customer = new CustomerModel({

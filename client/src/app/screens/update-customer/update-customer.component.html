@@ -1,34 +1,39 @@
 <ibm-tile *ngIf="!loading">
-  <h1>Edit video</h1>
+  <h1>Edit customer</h1>
   <div *ngIf="isSelectionInvalid" class="notifications">
-      <div *ngIf="title.invalid && (title.dirty || title.touched) || isSelectionInvalid">
-        <ibm-notification *ngIf="title.errors?.required" [notificationObj]="{type: 'error', title: 'Title cannot be blank'}">
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched) || isSelectionInvalid">
+        <ibm-notification *ngIf="firstName.errors?.required" [notificationObj]="{type: 'error', title: 'First Name cannot be blank'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="time.invalid && (time.dirty || time.touched) || isSelectionInvalid ">
-        <ibm-notification *ngIf="time.errors?.required" [notificationObj]="{type: 'error', title: 'Running time cannot be blank'}">
-			  </ibm-notification>
-        <ibm-notification *ngIf="time.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Running time has to be a number'}">
-			  </ibm-notification>
-        <ibm-notification *ngIf="time.errors?.isZero" [notificationObj]="{type: 'error', title: 'Running time cannot be zero'}">
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="lastName.errors?.required" [notificationObj]="{type: 'error', title: 'Last Name cannot be blank'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="director.invalid && (director.dirty || director.touched) || isSelectionInvalid">
-        <ibm-notification *ngIf="director.errors?.required" [notificationObj]="{type: 'error', title: 'Director cannot be blank'}">
+      <div *ngIf="address.invalid && (address.dirty || address.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="address.errors?.required" [notificationObj]="{type: 'error', title: 'Address cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="city.invalid && (city.dirty || city.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="city.errors?.required" [notificationObj]="{type: 'error', title: 'City cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="phoneNumber.errors?.required" [notificationObj]="{type: 'error', title: 'Phone Number cannot be blank'}">
+			  </ibm-notification>
+        <ibm-notification *ngIf="phoneNumber.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Phone Number has to be a number'}">
+			  </ibm-notification>
+        <ibm-notification *ngIf="phoneNumber.errors?.isZero" [notificationObj]="{type: 'error', title: 'Phone Number cannot be zero'}">
 			  </ibm-notification>
       </div>
       <div *ngIf="isSelectionInvalid">
-         <ibm-notification *ngIf="!selectedGenre?.selected" [notificationObj]="{type: 'error', title: 'Please select a genre'}">
-			  </ibm-notification>
-          <ibm-notification *ngIf="!selectedRating?.selected" [notificationObj]="{type: 'error', title: 'Please select a rating'}">
-			  </ibm-notification>
-          <ibm-notification *ngIf="!selectedStatus?.selected" [notificationObj]="{type: 'error', title: 'Please select a status'}">
-			  </ibm-notification>
-      </div>
+         <ibm-notification *ngIf="!selectedStatus?.selected" [notificationObj]="{type: 'error', title: 'Please select a status'}">
+       </ibm-notification>
+     </div>
+
+  
 
 
 
-      
   </div>
   <div class="content-tile">
     <div class="image-content">
@@ -39,50 +44,49 @@
           </div>
           <div class="avatar-preview">
               <div id="imagePreview" [ngStyle]="{'background-image': getUrl()}">
-                <ibm-icon color="dark" icon="icon--upload"></ibm-icon>
+              <ibm-icon color="dark" icon="icon--upload"></ibm-icon>  
               </div>
           </div>
       </div>
     </div>
     <div class="content">
-      <form (ngSubmit)="onSubmit()" [formGroup]="videoForm"  enctype="multipart/form-data">
+      <form (ngSubmit)="onSubmit()" [formGroup]="customerForm"  enctype="multipart/form-data">
       
         <div class="section">
 
-            <label label for="title">Title</label>
-            <input ibmText id="title" formControlName="title" required/>
+            <label label for="firstName">First Name</label>
+            <input ibmText id="firstName" formControlName="firstName" required/>
 
         </div>
         <div class="section">
 
-            <label label for="time">Running Time</label>
-            <input ibmText id="time" formControlName="time" required/>
+            <label label for="lastName">Last Name</label>
+            <input ibmText id="lastName" formControlName="lastName" required/>
  
         </div>
         <div class="section">
-          <label label>Genre</label>
-          <ibm-dropdown [(ngModel)]="selectedGenre" [ngModelOptions]="{standalone: true}" name="genre" placeholder="Select a genre">
-              <ibm-dropdown-list [items]="genreList"></ibm-dropdown-list>
-            </ibm-dropdown>
-        </div>
-        <div class="section">
-          <label label>Rating</label>
-            
-          <ibm-dropdown  [(ngModel)]="selectedRating" [ngModelOptions]="{standalone: true}" name="rating" placeholder="Select a rating">
-              <ibm-dropdown-list [items]="ratingList"></ibm-dropdown-list>
-            </ibm-dropdown>
-        </div>
-        <div class="section">
-          
-            <label label for="director">Director</label>
-            <input ibmText id="director" formControlName="director" required/>
 
-        </div>
+          <label label for="address">Address</label>
+          <input ibmText id="address" formControlName="address" required/>
+
+      </div>
+      <div class="section">
+
+        <label label for="city">City</label>
+        <input ibmText id="city" formControlName="city" required/>
+
+      </div>
+      <div class="section">
+
+      <label label for="phoneNumber">Phone Number</label>
+      <input ibmText id="phoneNumber" formControlName="phoneNumber" required/>
+
+      </div>
         <div class="section">
 
             <label label>Status</label>
            
-           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" placeholder="Select a movie status">
+           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" (ngModelChange)="getCurrentStatus($event);" placeholder="Select customer status">
               <ibm-dropdown-list [items]="statusList"></ibm-dropdown-list>
             </ibm-dropdown>
         </div>

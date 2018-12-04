@@ -1,12 +1,12 @@
 <ibm-tile *ngIf="!loading">
   <h1>Create new customer</h1>
   <div *ngIf="isSelectionInvalid" class="notifications">
-      <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched) || isSelectionInvalid">
-        <ibm-notification *ngIf="firstname.errors?.required" [notificationObj]="{type: 'error', title: 'First Name cannot be blank'}">
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched) || isSelectionInvalid">
+        <ibm-notification *ngIf="firstName.errors?.required" [notificationObj]="{type: 'error', title: 'First Name cannot be blank'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched) || isSelectionInvalid ">
-        <ibm-notification *ngIf="lastname.errors?.required" [notificationObj]="{type: 'error', title: 'Last Name cannot be blank'}">
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="lastName.errors?.required" [notificationObj]="{type: 'error', title: 'Last Name cannot be blank'}">
 			  </ibm-notification>
       </div>
       <div *ngIf="address.invalid && (address.dirty || address.touched) || isSelectionInvalid ">
@@ -17,12 +17,12 @@
         <ibm-notification *ngIf="city.errors?.required" [notificationObj]="{type: 'error', title: 'City cannot be blank'}">
 			  </ibm-notification>
       </div>
-      <div *ngIf="phonenumber.invalid && (phonenumber.dirty || phonenumber.touched) || isSelectionInvalid ">
-        <ibm-notification *ngIf="phonenumber.errors?.required" [notificationObj]="{type: 'error', title: 'Phone Number cannot be blank'}">
+      <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="phoneNumber.errors?.required" [notificationObj]="{type: 'error', title: 'Phone Number cannot be blank'}">
 			  </ibm-notification>
-        <ibm-notification *ngIf="phonenumber.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Phone Number has to be a number'}">
+        <ibm-notification *ngIf="phoneNumber.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Phone Number has to be a number'}">
 			  </ibm-notification>
-        <ibm-notification *ngIf="phonenumber.errors?.isZero" [notificationObj]="{type: 'error', title: 'Phone Number cannot be zero'}">
+        <ibm-notification *ngIf="phoneNumber.errors?.isZero" [notificationObj]="{type: 'error', title: 'Phone Number cannot be zero'}">
 			  </ibm-notification>
       </div>
       <div *ngIf="isSelectionInvalid">
@@ -54,14 +54,14 @@
       
         <div class="section">
 
-            <label label for="firstname">First Name</label>
-            <input ibmText id="firstname" formControlName="firstName" required/>
+            <label label for="firstName">First Name</label>
+            <input ibmText id="firstName" formControlName="firstName" required/>
 
         </div>
         <div class="section">
 
-            <label label for="lastname">Last Name</label>
-            <input ibmText id="lastname" formControlName="lastname" required/>
+            <label label for="lastName">Last Name</label>
+            <input ibmText id="lastName" formControlName="lastName" required/>
  
         </div>
         <div class="section">
@@ -78,8 +78,8 @@
       </div>
       <div class="section">
 
-      <label label for="phonenumber">Phone Number</label>
-      <input ibmText id="phonenumber" formControlName="phonenumber" required/>
+      <label label for="phoneNumber">Phone Number</label>
+      <input ibmText id="phoneNumber" formControlName="phoneNumber" required/>
 
       </div>
         <div class="section">
