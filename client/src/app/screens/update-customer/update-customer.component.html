@@ -36,19 +36,6 @@
 
   </div>
   <div class="content-tile">
-    <div class="image-content">
-      <div class="avatar-upload">
-          <div class="avatar-edit">
-              <input (change)="onImageUpload($event);" type='file' id="imageUpload" accept=".png, .jpg, .jpeg"  />
-              <label for="imageUpload"><i class="material-icons iconUpload">file_upload</i></label>
-          </div>
-          <div class="avatar-preview">
-              <div id="imagePreview" [ngStyle]="{'background-image': getUrl()}">
-              <ibm-icon color="dark" icon="icon--upload"></ibm-icon>  
-              </div>
-          </div>
-      </div>
-    </div>
     <div class="content">
       <form (ngSubmit)="onSubmit()" [formGroup]="customerForm"  enctype="multipart/form-data">
       
@@ -86,7 +73,7 @@
 
             <label label>Status</label>
            
-           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" (ngModelChange)="getCurrentStatus($event);" placeholder="Select customer status">
+           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" placeholder="Select customer status">
               <ibm-dropdown-list [items]="statusList"></ibm-dropdown-list>
             </ibm-dropdown>
         </div>

@@ -8,8 +8,8 @@
       grid-column: 1;
     }
     .content {
-      grid-column-start: 2;
-      grid-column-end: span col3-start;
+      grid-column-start: 1;
+      grid-column-end: span col3-end;
     }
   }
   

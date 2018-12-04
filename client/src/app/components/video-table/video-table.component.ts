@@ -84,12 +84,9 @@ export class VideoTableComponent implements OnInit {
       this.videoPagination$.videos
     ).filter(data => {
       const result = data.reduce((acc, cell, i) => {
-        return (
-          acc ||
-          cell.data
-            .toString()
-            .toLowerCase()
-            .includes(keyword && keyword.toLowerCase())
+        const match = cell.data ? cell.data.toString().toLowerCase().includes(keyword && keyword.toLowerCase()) : false
+        return ( 
+          acc || match
         );
       }, false);
       return result;

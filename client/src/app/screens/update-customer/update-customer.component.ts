@@ -83,10 +83,6 @@ export class UpdateCustomerComponent implements OnInit {
   }
 
 
-  onImageUpload(event) {
-    console.log(event);
-    this.readUrl(event);
-  }
   onSubmit() {
     if (
       this.firstName&&
@@ -95,13 +91,12 @@ export class UpdateCustomerComponent implements OnInit {
     ) {
       const data = {
           
-        firstname: this.firstName.value,
-        lastname: this.lastName.value,
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
         address: this.address.value,
         city: this.city.value,
-        phonenumber: this.phoneNumber.value,
-        imagefile: this.imageFile,
-        active: this.selectedStatus.actualContent
+        phoneNumber: this.phoneNumber.value,
+        status: this.selectedStatus.actualContent
       };
       this.submitting = true;
       this.api.updateCustomer(this.customerId$, data).subscribe(
@@ -117,17 +112,6 @@ export class UpdateCustomerComponent implements OnInit {
   }
 
 
-  readUrl(event) {
-    if (event.target.files && event.target.files[0]) {
-      this.imageFile = event.target.files[0];
-      this.imageUpload = URL.createObjectURL(event.target.files[0]);
-    }
-  }
-  getUrl() {
-    return this.imageUpload
-      ? `url(${this.imageUpload})`
-      : `url(${this.customerModel.image})`;
-  }
   inputNumberValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       return isNaN(control.value) ? { isNotNumber: true } : null;
@@ -137,6 +121,7 @@ export class UpdateCustomerComponent implements OnInit {
   getCustomer() {
     this.api.getCustomerById$(this.customerId$).subscribe(res => {
       this.customerModel = res;
+      console.log(this.customerModel)
       this.customerForm = new FormGroup({
         firstName: new FormControl(this.customerModel.firstName, [Validators.required]),
         lastName: new FormControl(this.customerModel.lastName, [Validators.required]),
@@ -145,7 +130,7 @@ export class UpdateCustomerComponent implements OnInit {
         phoneNumber: new FormControl(this.customerModel.phoneNumber, [Validators.required, this.inputNumberValidator()]),
       });
       this.statusList.forEach(status => {
-        if (status.actualContent == this.customerModel.active) {
+        if (status.actualContent == this.customerModel.status) {
           this.selectedStatus = { ...status, selected: true };
         }
       });

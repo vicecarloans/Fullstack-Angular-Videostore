@@ -10,8 +10,7 @@ export class CustomerModel {
     public address: string,
     public city: string,
     public phoneNumber: string,
-    public active: boolean,
-    public image: string,
+    public status: boolean,
     public _customerId?: string,
     
   ) {}
@@ -32,7 +31,6 @@ export class CustomerFormModel {
     public address: string = "",
     public city: string = "",
     public phoneNumber: string = "",
-    public active: boolean = true,
-    public image: any = null
+    public status: boolean = true,
   ) {}
 }

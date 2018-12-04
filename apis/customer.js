@@ -66,7 +66,7 @@ router.get('/info/:id', requireLogin, async (req, res, next) => {
     try{
         const customerId = req.params.id;
         const customer = await CustomerModel.findById(customerId);
-        res.json({customer});
+        res.json(customer);
     }catch(e){
         next(e);
     }

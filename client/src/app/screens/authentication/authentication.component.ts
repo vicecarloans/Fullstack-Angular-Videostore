@@ -47,9 +47,8 @@ export class AuthenticationComponent implements OnInit {
         this.router.navigateByUrl("/dashboard");
       } else {
         this.loading = false;
-        if (v.err) {
-          this.error = v.err;
-        }
+        this.error = v.err;
+        
       }
     });
   }

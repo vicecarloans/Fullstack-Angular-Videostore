@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   logout() {
-    this.store.dispatch(new AuthActions.AuthLogging());
+    this.store.dispatch(new AuthActions.AuthLoggedOut());
     return this.http
       .get("http://localhost:5000/auth/logout", { withCredentials: true })
       .subscribe(

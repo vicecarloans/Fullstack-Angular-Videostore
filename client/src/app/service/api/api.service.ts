@@ -112,17 +112,12 @@ export class ApiService {
 
 getCustomerById$(id): Observable<CustomerModel> {
   return this.http
-    .get<CustomerModel>(`http://localhost:5000/api/customers/${id}`)
+    .get<CustomerModel>(`http://localhost:5000/api/customers/info/${id}`, {
+      withCredentials: true
+    })
     .pipe(catchError(err => this._handleError(err)));
 }
-getImageBlob2(customerId, imagepath): Observable<any> {
-  return this.http
-    .get(
-      `http://localhost:5000/api/customers/${customerId}/banner?imagepath=${imagepath}`,
-      { responseType: "blob" }
-    )
-    .pipe(catchError(err => this._handleError(err)));
-}
+
 getCustomerInfoDropDown(): Observable<CustomerModelDropDown> {
   return this.http
     .get("http://localhost:5000/api/customers/names")
@@ -158,26 +153,10 @@ getCustomerInfoDropDown(): Observable<CustomerModelDropDown> {
 
   updateCustomer(
     id,
-    {  firstname,
-      lastname,
-      address,
-      city,
-      phonenumber,
-      imagefile,
-      active }
+    body
   ): Observable<CustomerModel> {
-    let formData: FormData = new FormData();
-    formData.append("firstName", firstname);
-    formData.append("lastName", lastname);
-    formData.append("address", address);
-    formData.append("city", city);
-    formData.append("phoneNumber", phonenumber);
-    if (imagefile) {
-      formData.append("banner", imagefile, imagefile.name);
-    }
-    formData.append("active", active);
     return this.http
-      .put<CustomerModel>(`http://localhost:5000/api/customers${id}`, formData, {
+      .put<CustomerModel>(`http://localhost:5000/api/customers/${id}`, body, {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));

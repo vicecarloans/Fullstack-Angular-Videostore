@@ -12,7 +12,7 @@
     <button ibmButton (click)="addCustomer();">Add New Customer</button>
   </div>
 </div>
-<ibm-placeholder></ibm-placeholder>
+
 <ibm-table *ngIf="!loading" [model]="customerTable" (sort)="customSort($event)" (filter)="doFilter($event)" [showSelectionColumn]="true"
 			[striped]="true"></ibm-table>
 <ibm-pagination *ngIf="!loading" [model]="customerTable" (selectPage)="selectPage($event)"></ibm-pagination>

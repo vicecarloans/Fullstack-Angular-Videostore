@@ -101,12 +101,10 @@ export class CustomerTableComponent implements OnInit {
       this.customerPagination$.customers
     ).filter(data => {
       const result = data.reduce((acc, cell, i) => {
-        return (
-          acc ||
-          cell.data
-            .toString()
-            .toLowerCase()
-            .includes(keyword && keyword.toLowerCase())
+
+        const match = cell.data ? cell.data.toString().toLowerCase().includes(keyword && keyword.toLowerCase()) : false
+        return ( 
+          acc || match
         );
       }, false);
       return result;
@@ -120,7 +118,7 @@ export class CustomerTableComponent implements OnInit {
         new TableItem({ data: customer.address }),
         new TableItem({ data: customer.city }),
         new TableItem({ data: customer.phoneNumber }),
-        new TableItem({ data: customer.active ? "Active" : "Inactive" }),
+        new TableItem({ data: customer.status ? "Active" : "Inactive" }),
         new TableItem({
           data: customer._id,
           template: this.customerPaginationUpdate
