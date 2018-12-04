@@ -1,5 +1,7 @@
 
 <div *ngIf="!loading" class="authentication-form">
+  <ibm-notification *ngIf="error === 400" [notificationObj]="{type: 'error', title: 'Please check your credentials'}">
+	</ibm-notification>
   <ibm-label>
     <label label>Email</label>
     <input ibmText placeholder="Email" (keyup)="onEmailChange($event)"/>

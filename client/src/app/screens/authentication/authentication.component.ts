@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { AdminReducerModel } from "../../models/admin.model";
+import * as AuthActions from "../../flux/admin/actions";
 import { AppState } from "../../models/store.model";
 import { AuthService } from "../../service/auth/auth.service";
 import { Observable } from "rxjs";
@@ -16,6 +17,7 @@ export class AuthenticationComponent implements OnInit {
   result: Object;
   admin: Observable<AdminReducerModel>;
   loading: boolean = true;
+  error: number;
   authorized: boolean;
   constructor(
     public auth: AuthService,
@@ -25,9 +27,11 @@ export class AuthenticationComponent implements OnInit {
 
   onEmailChange(event: any) {
     this.email = event.target.value;
+    this.store.dispatch(new AuthActions.AuthReset());
   }
   onPasswordChange(event: any) {
     this.password = event.target.value;
+    this.store.dispatch(new AuthActions.AuthReset());
   }
 
   submitLogin() {
@@ -43,6 +47,9 @@ export class AuthenticationComponent implements OnInit {
         this.router.navigateByUrl("/dashboard");
       } else {
         this.loading = false;
+        if (v.err) {
+          this.error = v.err;
+        }
       }
     });
   }
