@@ -177,14 +177,14 @@ export class VideoTableComponent implements OnInit {
     };
 
     const fullPage = [];
-
+    const allData = this.generateBody(this.videoPagination$.videos);
     for (
       let i = (page - 1) * this.videoTable.pageLength;
       i < page * this.videoTable.pageLength &&
       i < this.videoTable.totalDataLength;
       i++
     ) {
-      fullPage.push(line(this.videoTable.data[i]));
+      fullPage.push(line(allData[i]));
     }
 
     return new Promise(resolve => {
