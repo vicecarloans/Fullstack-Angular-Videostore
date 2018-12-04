@@ -152,14 +152,14 @@ export class CustomerTableComponent implements OnInit {
     };
 
     const fullPage = [];
-
+    const allData = this.generateBody(this.customerPagination$.customers);
     for (
       let i = (page - 1) * this.customerTable.pageLength;
       i < page * this.customerTable.pageLength &&
       i < this.customerTable.totalDataLength;
       i++
     ) {
-      fullPage.push(line(this.customerTable.data[i]));
+      fullPage.push(line(allData[i]));
     }
 
     return new Promise(resolve => {

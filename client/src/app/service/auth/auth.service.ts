@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { LOGGING_IN, LOGGED_IN, LOGGED_OUT } from "../../flux/admin";
+import * as AuthActions from "../../flux/admin/actions";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   throwError as ObservableThrowError,
@@ -27,7 +27,7 @@ export class AuthService {
     this.admin = store.select("admin");
   }
   login(email: string, password: string) {
-    this.store.dispatch({ type: LOGGING_IN });
+    this.store.dispatch(new AuthActions.AuthLogging());
     return this.http
       .post<StatusResponseModel>(
         "http://localhost:5000/auth/login",
@@ -63,7 +63,11 @@ export class AuthService {
 
   setLoggedIn(value: boolean) {
     // Update login status subject
-    this.store.dispatch({ type: value ? LOGGED_IN : LOGGED_OUT });
+    if (value) {
+      this.store.dispatch(new AuthActions.AuthLoggedIn());
+    } else {
+      this.store.dispatch(new AuthActions.AuthLoggedOut());
+    }
   }
 
   private _setSession(result: TokenModel) {
@@ -74,7 +78,7 @@ export class AuthService {
   }
 
   logout() {
-    this.store.dispatch({ type: LOGGING_IN });
+    this.store.dispatch(new AuthActions.AuthLogging());
     return this.http
       .get("http://localhost:5000/auth/logout", { withCredentials: true })
       .subscribe(
@@ -96,11 +100,7 @@ export class AuthService {
   }
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || "Error: Unable to complete request.";
-    // if (err.status && err.status == 401) {
-    //   this.auth.login();
-    // }
-
-    console.log(err);
+    this.store.dispatch(new AuthActions.AuthFailed(err.status));
     return ObservableThrowError(errorMsg);
   }
 }
