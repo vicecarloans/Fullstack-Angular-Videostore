@@ -1,0 +1,103 @@
+<ibm-tile *ngIf="!loading">
+  <h1>Create new customer</h1>
+  <div *ngIf="isSelectionInvalid" class="notifications">
+      <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched) || isSelectionInvalid">
+        <ibm-notification *ngIf="firstname.errors?.required" [notificationObj]="{type: 'error', title: 'First Name cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="lastname.errors?.required" [notificationObj]="{type: 'error', title: 'Last Name cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="address.invalid && (address.dirty || address.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="address.errors?.required" [notificationObj]="{type: 'error', title: 'Address cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="city.invalid && (city.dirty || city.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="city.errors?.required" [notificationObj]="{type: 'error', title: 'City cannot be blank'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="phonenumber.invalid && (phonenumber.dirty || phonenumber.touched) || isSelectionInvalid ">
+        <ibm-notification *ngIf="phonenumber.errors?.required" [notificationObj]="{type: 'error', title: 'Phone Number cannot be blank'}">
+			  </ibm-notification>
+        <ibm-notification *ngIf="phonenumber.errors?.isNotNumber" [notificationObj]="{type: 'error', title: 'Phone Number has to be a number'}">
+			  </ibm-notification>
+        <ibm-notification *ngIf="phonenumber.errors?.isZero" [notificationObj]="{type: 'error', title: 'Phone Number cannot be zero'}">
+			  </ibm-notification>
+      </div>
+      <div *ngIf="isSelectionInvalid">
+         <ibm-notification *ngIf="!selectedStatus?.selected" [notificationObj]="{type: 'error', title: 'Please select a status'}">
+       </ibm-notification>
+     </div>
+
+  
+
+
+
+  </div>
+  <div class="content-tile">
+    <div class="image-content">
+      <div class="avatar-upload">
+          <div class="avatar-edit">
+              <input (change)="onImageUpload($event);" type='file' id="imageUpload" accept=".png, .jpg, .jpeg"  />
+              <label for="imageUpload"><i class="material-icons iconUpload">file_upload</i></label>
+          </div>
+          <div class="avatar-preview">
+              <div id="imagePreview" [ngStyle]="{'background-image': getUrl()}">
+                
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="content">
+      <form (ngSubmit)="onSubmit()" [formGroup]="customerForm"  enctype="multipart/form-data">
+      
+        <div class="section">
+
+            <label label for="firstname">First Name</label>
+            <input ibmText id="firstname" formControlName="firstName" required/>
+
+        </div>
+        <div class="section">
+
+            <label label for="lastname">Last Name</label>
+            <input ibmText id="lastname" formControlName="lastname" required/>
+ 
+        </div>
+        <div class="section">
+
+          <label label for="address">Address</label>
+          <input ibmText id="address" formControlName="address" required/>
+
+      </div>
+      <div class="section">
+
+        <label label for="city">City</label>
+        <input ibmText id="city" formControlName="city" required/>
+
+      </div>
+      <div class="section">
+
+      <label label for="phonenumber">Phone Number</label>
+      <input ibmText id="phonenumber" formControlName="phonenumber" required/>
+
+      </div>
+        <div class="section">
+
+            <label label>Status</label>
+           
+           <ibm-dropdown [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" name="status" (ngModelChange)="getCurrentStatus($event);" placeholder="Select customer status">
+              <ibm-dropdown-list [items]="statusList"></ibm-dropdown-list>
+            </ibm-dropdown>
+        </div>
+        <div class="submit-btn">
+          <button type="submit" [disabled]="submitting" ibmButton style="width:30vw;">Submit</button>
+        </div>
+      </form>
+    </div>
+
+
+  
+  </div>
+</ibm-tile>
+<ibm-loading *ngIf="loading">Loading...</ibm-loading>

@@ -29,6 +29,6 @@ export class CustomerFormModel {
     public address: string = "",
     public city: string = "",
     public phoneNumber: string = "",
-    public status: boolean
+    public status: boolean = true
   ) {}
 }
