@@ -1,6 +1,6 @@
 # fullstack-videostore
 
-Video Store Application support CRUD, CMS built from MEAN stack
+Video Store Application support CRUD, CMS built from MEAN stack. You can view the project on production server [here](https://huy-videostore.herokuapp.com/)
 
 ### Getting Started
 
@@ -25,4 +25,8 @@ email: admin@root.com
 password: root
 ```
 
-> This project is made use of external service [Cloudinary](https://cloudinary.com/). Cloudinary API key will be temporarily added to the project for the sake of grading scheme. However, it will be removed after marks are received.
+## Built With
+
+- [Angular.io](https://angular.io/) - Front end framework
+- [IBM Carbon Design System](http://www.carbondesignsystem.com/)
+- [Node](https://nodejs.org/)
