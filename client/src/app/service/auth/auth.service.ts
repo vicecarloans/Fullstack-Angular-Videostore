@@ -30,7 +30,7 @@ export class AuthService {
     this.store.dispatch(new AuthActions.AuthLogging());
     return this.http
       .post<StatusResponseModel>(
-        "http://localhost:5000/auth/login",
+        "/auth/login",
         {
           email,
           password
@@ -46,7 +46,7 @@ export class AuthService {
   }
   getSession() {
     return this.http
-      .get<TokenModel>("http://localhost:5000/api/user/", {
+      .get<TokenModel>("/api/user/", {
         withCredentials: true
       })
       .subscribe(
@@ -79,19 +79,17 @@ export class AuthService {
 
   logout() {
     this.store.dispatch(new AuthActions.AuthLoggedOut());
-    return this.http
-      .get("http://localhost:5000/auth/logout", { withCredentials: true })
-      .subscribe(
-        res => {
-          this._clearExpiration();
-          this.setLoggedIn(false);
-          this.userProfile = null;
-          this.router.navigateByUrl("/dashboard", { skipLocationChange: true });
-        },
-        err => {
-          this._handleError(err);
-        }
-      );
+    return this.http.get("/auth/logout", { withCredentials: true }).subscribe(
+      res => {
+        this._clearExpiration();
+        this.setLoggedIn(false);
+        this.userProfile = null;
+        this.router.navigateByUrl("/dashboard", { skipLocationChange: true });
+      },
+      err => {
+        this._handleError(err);
+      }
+    );
   }
 
   private _clearExpiration() {

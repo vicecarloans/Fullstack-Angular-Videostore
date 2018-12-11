@@ -24,27 +24,24 @@ export class ApiService {
   // Get list of videos
   getVideos$(): Observable<VideoPaginationModel> {
     return this.http
-      .get<VideoPaginationModel>("http://localhost:5000/api/videos")
+      .get<VideoPaginationModel>("/api/videos")
       .pipe(catchError(err => this._handleError(err)));
   }
   getVideoById$(id): Observable<VideoModel> {
     return this.http
-      .get<VideoModel>(`http://localhost:5000/api/videos/${id}`)
+      .get<VideoModel>(`/api/videos/${id}`)
       .pipe(catchError(err => this._handleError(err)));
   }
   getImageBlob(videoId, imagepath): Observable<any> {
     return this.http
-      .get(
-        `http://localhost:5000/api/videos/${videoId}/banner?imagepath=${imagepath}`,
-        { responseType: "blob" }
-      )
+      .get(`/api/videos/${videoId}/banner?imagepath=${imagepath}`, {
+        responseType: "blob"
+      })
       .pipe(catchError(err => this._handleError(err)));
   }
   reserveVideo(videoId, customerId): Observable<VideoModel> {
     return this.http
-      .get<VideoModel>(
-        `http://localhost:5000/api/videos/${videoId}/reserve/${customerId}`
-      )
+      .get<VideoModel>(`/api/videos/${videoId}/reserve/${customerId}`)
       .pipe(catchError(err => this._handleError(err)));
   }
   createVideo({
@@ -67,7 +64,7 @@ export class ApiService {
     }
     formData.append("available", available);
     return this.http
-      .post<VideoModel>(`http://localhost:5000/api/videos`, formData, {
+      .post<VideoModel>(`/api/videos`, formData, {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));
@@ -87,61 +84,67 @@ export class ApiService {
     }
     formData.append("available", available);
     return this.http
-      .put<VideoModel>(`http://localhost:5000/api/videos/${id}`, formData, {
+      .put<VideoModel>(`/api/videos/${id}`, formData, {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));
   }
   deleteVideo(id) {
     return this.http
-      .delete(`http://localhost:5000/api/videos/${id}`, {
+      .delete(`/api/videos/${id}`, {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));
   }
-
 
   // Get list of customers
   getCustomers$(): Observable<CustomerPaginationModel> {
     return this.http
-      .get<CustomerPaginationModel>("http://localhost:5000/api/customers", {
+      .get<CustomerPaginationModel>("/api/customers", {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));
   }
 
-getCustomerById$(id): Observable<CustomerModel> {
-  return this.http
-    .get<CustomerModel>(`http://localhost:5000/api/customers/info/${id}`, {
-      withCredentials: true
-    })
-    .pipe(catchError(err => this._handleError(err)));
-}
+  getCustomerById$(id): Observable<CustomerModel> {
+    return this.http
+      .get<CustomerModel>(`/api/customers/info/${id}`, {
+        withCredentials: true
+      })
+      .pipe(catchError(err => this._handleError(err)));
+  }
 
-getCustomerInfoDropDown(): Observable<CustomerModelDropDown> {
-  return this.http
-    .get("http://localhost:5000/api/customers/names")
-    .pipe(catchError(err => this._handleError(err)));
-}
+  getCustomerInfoDropDown(): Observable<CustomerModelDropDown> {
+    return this.http
+      .get("/api/customers/names")
+      .pipe(catchError(err => this._handleError(err)));
+  }
 
-//
+  //
   createCustomer(body): Observable<CustomerModel> {
     return this.http
-      .post<CustomerModel>(`http://localhost:5000/api/customers`, body, {
+      .post<CustomerModel>(`/api/customers`, body, {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));
   }
-//
+  //
 
   deleteCustomer(id) {
     return this.http
-      .delete(`http://localhost:5000/api/customers/${id}`, {
+      .delete(`/api/customers/${id}`, {
         withCredentials: true
       })
       .pipe(catchError(err => this._handleError(err)));
   }
 
+  updateCustomer(id, body): Observable<CustomerModel> {
+    return this.http
+      .put<CustomerModel>(`/api/customers/${id}`, body, {
+        withCredentials: true
+      })
+      .pipe(catchError(err => this._handleError(err)));
+  }
   private _handleError(err: HttpErrorResponse | any): Observable<any> {
     const errorMsg = err.message || "Error: Unable to complete request.";
     // if (err.status && err.status == 401) {
@@ -150,16 +153,4 @@ getCustomerInfoDropDown(): Observable<CustomerModelDropDown> {
     console.log(err);
     return ObservableThrowError(errorMsg);
   }
-
-  updateCustomer(
-    id,
-    body
-  ): Observable<CustomerModel> {
-    return this.http
-      .put<CustomerModel>(`http://localhost:5000/api/customers/${id}`, body, {
-        withCredentials: true
-      })
-      .pipe(catchError(err => this._handleError(err)));
-  }
-
 }
