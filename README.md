@@ -16,6 +16,8 @@ and run this command to start
 npm run dev
 ```
 
+add `dev.js` to `config/` with your own API key corresponding to those from `prod.js`
+
 ## Guidelines
 
 To test this application, use this admin credentials
