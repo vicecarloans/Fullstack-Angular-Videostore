@@ -84,10 +84,13 @@ export class VideoTableComponent implements OnInit {
       this.videoPagination$.videos
     ).filter(data => {
       const result = data.reduce((acc, cell, i) => {
-        const match = cell.data ? cell.data.toString().toLowerCase().includes(keyword && keyword.toLowerCase()) : false
-        return ( 
-          acc || match
-        );
+        const match = cell.data
+          ? cell.data
+              .toString()
+              .toLowerCase()
+              .includes(keyword && keyword.toLowerCase())
+          : false;
+        return acc || match;
       }, false);
       return result;
     });
@@ -227,7 +230,7 @@ export class VideoTableComponent implements OnInit {
     this.api.deleteVideo(id).subscribe(
       res => {
         console.log(res);
-        location.reload();
+        // location.reload();
       },
       err => console.log(err)
     );

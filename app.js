@@ -34,6 +34,14 @@ const AuthRoutes = require('./auth');
 app.use('/auth',AuthRoutes);
 app.use('/api',ApiRoutes);
 
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static('client/dist/client'));
+
+    const path = require('path');
+    app.get('*', (req,res) => {
+        res.sendFile(path.resolve(__dirname, 'client','dist','client','index.html'))
+    })
+}
 
 app.use(function(err, req, res, next) {
     
