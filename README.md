@@ -2,7 +2,7 @@
 
 Video Store Application support CRUD, CMS built from MEAN stack. You can view the project on production server [here](https://huy-videostore.herokuapp.com/)
 
-### Getting Started
+## Getting Started
 
 After pulling the project, move to the root directory run
 
@@ -16,7 +16,7 @@ and run this command to start
 npm run dev
 ```
 
-### Guidelines
+## Guidelines
 
 To test this application, use this admin credentials
 
