@@ -2,10 +2,9 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
-    "postinstall": "ng build --aot -prod",
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
